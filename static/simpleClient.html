@@ -1,8 +1,25 @@
+<html>
+<head>
 <script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script>
-  var socket = io.connect('http://localhost');
-  socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
-  });
+    $(function() {
+        var socket = io.connect('/');
+        socket.on('news', function (data) {
+            console.log(data);
+            $("#server-out").append(JSON.stringify(data));
+        });
+        
+        $("#send").click(function() {
+            socket.emit('send message', { my: $("#message").val() });
+        });
+    });
 </script>
+</head>
+<body>
+<input type="text" id="message" />
+<input type="button" id="send" value="send" />
+<div id="server-out">
+</div>
+</body>
+</html>
