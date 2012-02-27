@@ -1,25 +1,102 @@
 <html>
 <head>
+<style type="text/css">
+  .icon {
+    position: absolute; 
+    display: inline;
+    width: 20px;
+    height: 10px;
+    //background-color: grey;
+  }
+</style>
 <script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script>
-    $(function() {
-        var socket = io.connect('/');
-        socket.on('news', function (data) {
-            console.log(data);
-            $("#server-out").append(JSON.stringify(data));
-        });
-        
-        $("#send").click(function() {
-            socket.emit('send message', { my: $("#message").val() });
-        });
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
+
+  $(function() {
+    var playas = [];
+    function getNewPlaya(deets) {
+      //console.log(deets);
+      return $.extend({}, {id: 0, position: {x:0, y:0}, name: "", icon: $('<span class="icon"/>')}, deets);
+    }
+    function getPlaya(id) {
+      for (var i = 0, l = playas.length; i < l; i++) {
+        if (playas[i].id === id) {
+          return playas[i];
+        }
+      }
+    }
+    function killPlaya(id) {
+      for (var i = 0, l = playas.length; i < l; i++) {
+        if (playas[i].id === id) {
+          playas[i].icon.remove();
+          playas.remove(i);
+          return;
+        }
+      }
+    }
+    function updatePosition(newPos) {
+      var playa = getPlaya(newPos.id);
+      
+      if (playa) {
+        playa.position = newPos.position;
+      }
+      else {
+        playa = getNewPlaya(newPos);
+        $('body').append(playa.icon);
+      }
+      
+      playa.icon.css({top: playa.position.y, left: playa.position.x});
+      playas.push(playa);
+    }
+    
+    function updateName(newName) {
+      var playa = getPlaya(newName.id);
+      if (!playa) {
+        playa = getNewPlaya(newName);
+        $('body').append(playa.icon);
+      } 
+      else {
+        playa.name = newName.name;
+      }
+      playa.icon.text(playa.name);
+      playas.push(playa);
+    }
+    
+    
+    var socket = io.connect('/');
+
+    socket.on('move', function(data) {
+      updatePosition(data);
     });
+    socket.on('name', function(data) {
+      updateName(data);
+    });
+    socket.on('died', function(data) {
+      killPlaya(data.id);
+    });
+    $("#save").click(function() {
+      socket.emit('name', { name: $("#name").val() });
+    });
+    
+    $(window).mousemove(function(event) {
+      var position = {'position': {x: event.pageX, y: event.pageY}};
+      socket.emit('move', position);  
+      //console.log(position);
+    });
+
+  });
 </script>
 </head>
 <body>
-<input type="text" id="message" />
-<input type="button" id="send" value="send" />
-<div id="server-out">
-</div>
+<label for="name">Name</label>
+<input type="text" id="name" />
+<input type="button" id="save" value="save" />
 </body>
 </html>
