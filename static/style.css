@@ -1,12 +1,12 @@
 html  {
   font-family: "helvetica", arial, sans-sarif;
   background: #212121; /* Old browsers */
-  background: -moz-radial-gradient(center, ellipse cover, #282828 31%, #0a0a0a 100%); /* FF3.6+ */
+  background: -moz-radial-gradient(center, ellipse cover, #383838 31%, #0a0a0a 100%); /* FF3.6+ */
   background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(31%,#212121), color-stop(100%,#0a0a0a)); /* Chrome,Safari4+ */
-  background: -webkit-radial-gradient(center, ellipse cover, #282828 31%,#0a0a0a 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-radial-gradient(center, ellipse cover, #212121 31%,#0a0a0a 100%); /* Opera 12+ */
-  background: -ms-radial-gradient(center, ellipse cover, #212121 31%,#0a0a0a 100%); /* IE10+ */
-  background: radial-gradient(center, ellipse cover, #212121 31%,#0a0a0a 100%); /* W3C */
+  background: -webkit-radial-gradient(center, ellipse cover, #383838 31%,#0a0a0a 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover, #313131 31%,#0a0a0a 100%); /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover, #313131 31%,#0a0a0a 100%); /* IE10+ */
+  background: radial-gradient(center, ellipse cover, #313131 31%,#0a0a0a 100%); /* W3C */
 }
 
 
@@ -29,7 +29,7 @@ h1 {
   -moz-background-size: 20px 20px;
   background-size: 20px 20px; /* Controls the size of the stripes */    
   
-background-color:555;
+  background-color: #555;
  /* background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, transparent), color-stop(.5, rgba(0, 0, 0, .1)), to(rgba(0, 0, 0, .1))),
             -webkit-gradient(linear, 0 0, 100% 0, color-stop(.5, transparent), color-stop(.5, rgba(0, 0, 0, .1)), to(rgba(0, 0, 0, .1)));i*/
   background-image: -webkit-linear-gradient(transparent 95%, rgba(0, 0, 0, .1) 50%, rgba(0, 0, 0, .1)),
