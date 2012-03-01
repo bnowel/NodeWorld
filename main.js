@@ -30,7 +30,7 @@ var world = {
         if (this.timerId || this.howManyPlayers() < this.minPlayersToStart)
             return;
         
-        this.timerId = setInterval(1000, world.update);
+        this.timerId = setInterval(world.update, 1000);
     }
 };
 
