@@ -17,8 +17,8 @@ app.get('/', function (req, res) {
 var world = {
     grid: []
     , players: []
-    , addPlayer: function(player) {players.push(player);}
-    , howManyPlayers: function() {return players.length;}
+    , addPlayer: function(player) {this.players.push(player);}
+    , howManyPlayers: function() {return this.players.length;}
     , timer: 0
     , update: function() {}
     , init: function() {}
