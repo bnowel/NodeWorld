@@ -3,12 +3,13 @@
 <style type="text/css">
   .icon {
     position: absolute; 
-    display: inline;
-    width: 20px;
-    height: 10px;
-    //background-color: grey;
+    display: inline-block;
+    padding: 5px;
+    background-color: white;
+    border-radius: 3px;
   }
 </style>
+<link rel="stylesheet" href="style.css">
 <script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script>
@@ -98,5 +99,13 @@ Array.prototype.remove = function(from, to) {
 <label for="name">Name</label>
 <input type="text" id="name" />
 <input type="button" id="save" value="save" />
+  <header>
+  <h1>Node World</h1>
+  </header>
+  <div role="main" class="main">
+  <div class="watermark">NodeWorld</div>
+  </div>
+  <footer>
+  </footer>
 </body>
 </html>
