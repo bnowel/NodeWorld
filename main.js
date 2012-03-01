@@ -1,9 +1,10 @@
-var express = require('express')
-  , app = express.createServer()
-  , io = require('socket.io').listen(app);
+var express = require('express'), 
+    app = express.createServer(),
+    io = require('socket.io').listen(app),
+    world = require("./static/js/world");
 
 app.configure(function(){
-      app.use(express.static(__dirname + '/static'));
+      app.use(express["static"](__dirname + '/static'));
       //app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
       app.use(express.bodyParser());
   });
@@ -14,32 +15,12 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + '/static/simpleClient.html');
 });
 
-var world = {
-    grid: []
-    , players: []
-    , minPlayersToStart: 4
-    , addPlayer: function(player) {this.players.push(player);}
-    , howManyPlayers: function() {return this.players.length;}
-    , timerId: 0
-    , update: function() { 
-        // update ticks
-        console.log("update ran");
-        io.sockets.volatile.emit('update', {"hoo": "ray"});
-    }
-    , init: function() {
-        if (this.timerId || this.howManyPlayers() < this.minPlayersToStart)
-            return;
-        
-        this.timerId = setInterval(world.update, 1000);
-    }
-};
-
 io.sockets.on('connection', function (socket) {
     // Update our list of players Add me
     world.addPlayer({id: socket.id});
     world.init();
     
-    socket.broadcast.emit('playerCount', {players: world.howManyPlayers()})
+    socket.broadcast.emit('playerCount', {players: world.howManyPlayers()});
     socket.on('move', function(data) {
         // Update where this player wants to "move"
         data.id = socket.id;
