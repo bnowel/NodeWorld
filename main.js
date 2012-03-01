@@ -43,7 +43,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('move', function(data) {
         // Update where this player wants to "move"
         data.id = socket.id;
-        socket.broadcast.emit('move', data); 
+        //socket.broadcast.emit('move', data); 
     });
     
     // Initialize player (join game)

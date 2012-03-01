@@ -85,13 +85,16 @@ Array.prototype.remove = function(from, to) {
     socket.on('playerCount', function(data) {
       console.log("player Count: " + data.players);
     });
+    socket.on('update', function(data) {
+      console.log("Update hoo " + data.hoo);
+    });
     $("#save").click(function() {
       socket.emit('name', { name: $("#name").val() });
     });
     
     $(window).mousemove(function(event) {
       var position = {'position': {x: event.pageX, y: event.pageY}};
-      socket.emit('move', position);  
+      //socket.emit('move', position);  
       //console.log(position);
     });
 
