@@ -17,16 +17,28 @@ app.get('/', function (req, res) {
 var world = {
     grid: []
     , players: []
+    , minPlayersToStart: 4
     , addPlayer: function(player) {this.players.push(player);}
     , howManyPlayers: function() {return this.players.length;}
-    , timer: 0
-    , update: function() {}
-    , init: function() {}
+    , timerId: 0
+    , update: function() { 
+        // update ticks
+        console.log("update ran");
+        io.sockets.emit('update', {"hoo": "ray"});
+    }
+    , init: function() {
+        if (timerId || this.howManyPlayers() < this.minPlayersToStart)
+            return;
+        
+        timerId = setInterval(1000, world.update);
+    }
 };
 
 io.sockets.on('connection', function (socket) {
     // Update our list of players Add me
     world.addPlayer({id: socket.id});
+    world.init();
+    
     socket.broadcast.emit('playerCount', {players: world.howManyPlayers()})
     socket.on('move', function(data) {
         // Update where this player wants to "move"
