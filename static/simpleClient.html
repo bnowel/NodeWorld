@@ -82,6 +82,9 @@ Array.prototype.remove = function(from, to) {
     socket.on('died', function(data) {
       killPlaya(data.id);
     });
+    socket.on('playerCount', function(data) {
+      console.log("player Count: " + data.players);
+    });
     $("#save").click(function() {
       socket.emit('name', { name: $("#name").val() });
     });

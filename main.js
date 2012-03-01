@@ -15,29 +15,32 @@ app.get('/', function (req, res) {
 });
 
 var world = {
-    bounds: {maxX: 600, maxY: 600}
-    //, players: []
+    grid: []
+    , players: []
+    , addPlayer: function(player) {players.push(player);}
+    , howManyPlayers: function() {return players.length;}
+    , timer: 0
+    , update: function() {}
+    , init: function() {}
 };
 
 io.sockets.on('connection', function (socket) {
-    socket.emit('news', { hello: 'world' });
-    socket.on('send message', function (data) {
-        console.log(data);
-        // send message back to the client
-        socket.emit('news', { news: data });
-    
-        // send message out to all OTHER clients
-        socket.broadcast.emit('news', { news: data });
-    });
+    // Update our list of players Add me
+    world.addPlayer({id: socket.id});
+    socket.broadcast.emit('playerCount', {players: world.howManyPlayers()})
     socket.on('move', function(data) {
+        // Update where this player wants to "move"
         data.id = socket.id;
         socket.broadcast.emit('move', data); 
     });
+    
+    // Initialize player (join game)
     socket.on('name', function(data) {
         data.id = socket.id;
         socket.broadcast.emit('name', data); 
     });
     socket.on('disconnect', function(data) {
+        // Update our list of players remove me
        socket.broadcast.emit('died', {id: socket.id});
     });
 });
