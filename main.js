@@ -27,10 +27,10 @@ var world = {
         io.sockets.emit('update', {"hoo": "ray"});
     }
     , init: function() {
-        if (timerId || this.howManyPlayers() < this.minPlayersToStart)
+        if (this.timerId || this.howManyPlayers() < this.minPlayersToStart)
             return;
         
-        timerId = setInterval(1000, world.update);
+        this.timerId = setInterval(1000, world.update);
     }
 };
 
