@@ -24,7 +24,7 @@ var world = {
     , update: function() { 
         // update ticks
         console.log("update ran");
-        io.sockets.emit('update', {"hoo": "ray"});
+        io.sockets.volatile.emit('update', {"hoo": "ray"});
     }
     , init: function() {
         if (this.timerId || this.howManyPlayers() < this.minPlayersToStart)
