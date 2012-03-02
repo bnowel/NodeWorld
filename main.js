@@ -14,6 +14,7 @@ app.listen(process.env.C9_PORT || process.env.PORT || 3000);
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/static/simpleClient.html');
 });
+world.setIo(io);
 
 io.sockets.on('connection', function (socket) {
     // Update our list of players Add me
@@ -32,7 +33,7 @@ io.sockets.on('connection', function (socket) {
         data.id = socket.id;
         socket.broadcast.emit('name', data); 
     });
-    socket.on('disconnect', function(data) {
+    socket.on('disconnect', function() {
         // Update our list of players remove me
        socket.broadcast.emit('died', {id: socket.id});
     });

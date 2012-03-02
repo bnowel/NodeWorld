@@ -2,27 +2,35 @@ var world = function () {
     var grid = [];
     var players =  [];
     var minPlayersToStart = 4;
-    var addPlayer = function(player) {players.push(player);}
-    var howManyPlayers = function() {return players.length;}
+    var addPlayer = function(player) {players.push(player);};
+    var howManyPlayers = function() {return players.length;};
     var timerId = 0;
+    var io = null;
+    
     var update = function() { 
         // update ticks
         console.log("update ran");
-        io.sockets.volatile.emit('update', {"hoo": "ray"});
-    }
+        if (io) {
+            io.sockets.volatile.emit('update', {"hoo": "ray"});
+        }
+    };
     var init= function() {
-        if (this.timerId || howManyPlayers() < minPlayersToStart)
+        if (timerId || howManyPlayers() < minPlayersToStart)
             return;
         
-        this.timerId = setInterval(world.update, 1000);
-    }
+        timerId = setInterval(world.update, 1000);
+    };
+    var setIo = function(pIo) {
+        io = pIo;
+    };
     
     return {
         addPlayer:addPlayer ,
         howManyPlayers:howManyPlayers,
         update:update,
-        init:init
-    }
+        init:init,
+        setIo: setIo
+    };
 }();
 
 if (typeof exports !== 'undefined') {
