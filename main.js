@@ -33,6 +33,12 @@ io.sockets.on('connection', function (socket) {
         data.id = socket.id;
         socket.broadcast.emit('name', data); 
     });
+    
+    // God commands
+    socket.on('god', function(data){
+    	world.godSays(data);
+    });
+    
     socket.on('disconnect', function() {
         // Update our list of players remove me
        socket.broadcast.emit('died', {id: socket.id});

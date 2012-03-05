@@ -86,10 +86,18 @@ Array.prototype.remove = function(from, to) {
       console.log("player Count: " + data.players);
     });
     socket.on('update', function(data) {
-      console.log("Update hoo " + data.hoo);
+      console.log("Update tick " + data.tick);
     });
     $("#save").click(function() {
-      socket.emit('name', { name: $("#name").val() });
+      var stuff = $("#name").val();
+      var words = stuff.split(" ");
+      
+      if (words[0] != "god") {
+      	socket.emit('name', { name: $("#name").val() });
+      }
+      else {
+      	socket.emit('god', {message:words[1],arg1:words[2]})
+      }
     });
     
     $(window).mousemove(function(event) {
