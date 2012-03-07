@@ -3,6 +3,13 @@ var express = require('express'),
     io = require('socket.io').listen(app),
     world = require("./static/js/world");
 
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
+
 app.configure(function(){
       app.use(express["static"](__dirname + '/static'));
       //app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -40,7 +47,8 @@ io.sockets.on('connection', function (socket) {
     });
     
     socket.on('disconnect', function() {
-        // Update our list of players remove me
-       socket.broadcast.emit('died', {id: socket.id});
+        console.log('player disconnected');
+        world.removePlayerById(socket.id);
+        socket.broadcast.emit('died', {id: socket.id});
     });
 });

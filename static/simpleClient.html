@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
 <head>
 <style type="text/css">
   .icon {
@@ -8,106 +8,12 @@
     background-color: white;
     border-radius: 3px;
   }
+  #board {
+    position: relative;
+    top: -274px;
+  }
 </style>
 <link rel="stylesheet" href="style.css">
-<script src="/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script>
-// Array Remove - By John Resig (MIT Licensed)
-Array.prototype.remove = function(from, to) {
-  var rest = this.slice((to || from) + 1 || this.length);
-  this.length = from < 0 ? this.length + from : from;
-  return this.push.apply(this, rest);
-};
-
-  $(function() {
-    var playas = [];
-    function getNewPlaya(deets) {
-      //console.log(deets);
-      return $.extend({}, {id: 0, position: {x:0, y:0}, name: "", icon: $('<span class="icon"/>')}, deets);
-    }
-    function getPlaya(id) {
-      for (var i = 0, l = playas.length; i < l; i++) {
-        if (playas[i].id === id) {
-          return playas[i];
-        }
-      }
-    }
-    function killPlaya(id) {
-      for (var i = 0, l = playas.length; i < l; i++) {
-        if (playas[i].id === id) {
-          playas[i].icon.remove();
-          playas.remove(i);
-          return;
-        }
-      }
-    }
-    function updatePosition(newPos) {
-      var playa = getPlaya(newPos.id);
-      
-      if (playa) {
-        playa.position = newPos.position;
-      }
-      else {
-        playa = getNewPlaya(newPos);
-        $('body').append(playa.icon);
-      }
-      
-      playa.icon.css({top: playa.position.y, left: playa.position.x});
-      playas.push(playa);
-    }
-    
-    function updateName(newName) {
-      var playa = getPlaya(newName.id);
-      if (!playa) {
-        playa = getNewPlaya(newName);
-        $('body').append(playa.icon);
-      } 
-      else {
-        playa.name = newName.name;
-      }
-      playa.icon.text(playa.name);
-      playas.push(playa);
-    }
-    
-    
-    var socket = io.connect('/');
-
-    socket.on('move', function(data) {
-      updatePosition(data);
-    });
-    socket.on('name', function(data) {
-      updateName(data);
-    });
-    socket.on('died', function(data) {
-      killPlaya(data.id);
-    });
-    socket.on('playerCount', function(data) {
-      console.log("player Count: " + data.players);
-    });
-    socket.on('update', function(data) {
-      console.log("Update tick " + data.tick);
-    });
-    $("#save").click(function() {
-      var stuff = $("#name").val();
-      var words = stuff.split(" ");
-      
-      if (words[0] != "god") {
-      	socket.emit('name', { name: $("#name").val() });
-      }
-      else {
-      	socket.emit('god', {message:words[1],arg1:words[2]})
-      }
-    });
-    
-    $(window).mousemove(function(event) {
-      var position = {'position': {x: event.pageX, y: event.pageY}};
-      //socket.emit('move', position);  
-      //console.log(position);
-    });
-
-  });
-</script>
 </head>
 <body>
 <label for="name">Name</label>
@@ -118,8 +24,122 @@ Array.prototype.remove = function(from, to) {
   </header>
   <div role="main" class="main">
   <div class="watermark">NodeWorld</div>
+  <canvas width="500" height="274" id="board"></canvas>
   </div>
   <footer>
   </footer>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script>
+  // Array Remove - By John Resig (MIT Licensed)
+  Array.prototype.remove = function(from, to) {
+    var rest = this.slice((to || from) + 1 || this.length);
+    this.length = from < 0 ? this.length + from : from;
+    return this.push.apply(this, rest);
+  };
+  function initCanvas() {
+    var canvas = document.getElementById("board");
+    
+    return canvas.getContext("2d");
+  }
+  function drawSquare(c, pos) {
+    c.fillStyle = "#FF0000";
+    c.fillRect(pos.x, pos.y, 19, 19);
+    console.log(pos);
+  }
+  
+    $(function() {
+      var playas = [],
+        board = initCanvas();
+      
+      drawSquare(board, {x: 0, y: 0});
+    
+      function getNewPlaya(deets) {
+        //console.log(deets);
+        return $.extend({}, {id: 0, position: {x:0, y:0}, name: "", icon: $('<span class="icon"/>')}, deets);
+      }
+      function getPlaya(id) {
+        for (var i = 0, l = playas.length; i < l; i++) {
+          if (playas[i].id === id) {
+            return playas[i];
+          }
+        }
+      }
+      function killPlaya(id) {
+        for (var i = 0, l = playas.length; i < l; i++) {
+          if (playas[i].id === id) {
+            playas[i].icon.remove();
+            playas.remove(i);
+            return;
+          }
+        }
+      }
+      function updatePosition(newPos) {
+        var playa = getPlaya(newPos.id);
+
+        if (playa) {
+          playa.position = newPos.position;
+        }
+        else {
+          playa = getNewPlaya(newPos);
+          //$('body').append(playa.icon);
+        }
+
+        playa.icon.css({top: playa.position.y, left: playa.position.x});
+        playas.push(playa);
+      }
+
+      function updateName(newName) {
+        var playa = getPlaya(newName.id);
+        if (!playa) {
+          playa = getNewPlaya(newName);
+          $('body').append(playa.icon);
+        } 
+        else {
+          playa.name = newName.name;
+        }
+        playa.icon.text(playa.name);
+        playas.push(playa);
+      }
+
+
+      var socket = io.connect('/');
+
+      socket.on('move', function(data) {
+        updatePosition(data);
+      });
+      socket.on('name', function(data) {
+        updateName(data);
+      });
+      socket.on('died', function(data) {
+        killPlaya(data.id);
+        console.log('Player died' + JSON.stringify(data));
+      });
+      socket.on('playerCount', function(data) {
+        console.log("player Count: " + data.players);
+      });
+      socket.on('update', function(data) {
+        console.log("Update tick " + data.tick);
+      });
+      $("#save").click(function() {
+        var stuff = $("#name").val();
+        var words = stuff.split(" ");
+
+        if (words[0] != "god") {
+        	socket.emit('name', { name: $("#name").val() });
+        }
+        else {
+        	socket.emit('god', {message:words[1],arg1:words[2]})
+        }
+      });
+
+      $(window).mousemove(function(event) {
+        var position = {'position': {x: event.pageX, y: event.pageY}};
+        //socket.emit('move', position);  
+        //console.log(position);
+      });
+
+    });
+  </script>
 </body>
 </html>

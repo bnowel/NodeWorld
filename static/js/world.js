@@ -12,11 +12,26 @@ var world = function () {
     // the players move at units (direction) per second (rate).
     var playerRate = 1000;
     
+    function getPlayerIndexById(id) {
+        for (var i = 0, l = players.length; i < l; i++) {
+            if(players[i].id == id)
+                return i;
+        }
+        
+        return -1;
+    }
+    
     // add a player to the world
     var addPlayer = function(player) {
-    	console.log("add player: " + player.name);
+    	console.log("add player: " + JSON.stringify(player));
     	players.push(player);
     };
+    
+    var removePlayerById = function(id) {
+        var pIndex = getPlayerIndexById(id);
+        if (pIndex >=0)
+            players.remove(pIndex);
+    }
     
     // update the world state
     var crank = function(tick) {
@@ -92,7 +107,8 @@ var world = function () {
         update:update,
         init:init,
         setIo: setIo,
-        godSays: godSays
+        godSays: godSays,
+        removePlayerById: removePlayerById
     };
 }();
 
