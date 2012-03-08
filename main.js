@@ -1,6 +1,7 @@
 var express = require('express'), 
     app = express.createServer(),
     io = require('socket.io').listen(app),
+    _ = require("./static/js/underscore"),
     world = require("./static/js/world");
 
 // Array Remove - By John Resig (MIT Licensed)
@@ -44,16 +45,6 @@ io.sockets.on('connection', function (socket) {
     // God commands
     socket.on('god', function(data){
     	world.godSays(data);
-    });
-    
-    socket.on('dir', function(data) {
-        console.log(data);
-        switch (data.dir) {
-          case 'w': break;  
-          case 'n': break;
-          case 'e': break;
-          case 's': break;
-        } 
     });
     
     socket.on('disconnect', function() {
