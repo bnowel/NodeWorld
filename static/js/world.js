@@ -12,6 +12,8 @@ var world = function () {
     var lastTick;
     // the update interval in ms
     var cycleSpeedMs = 1000;
+    // the players speed in units per second
+    var playerSpeed = 5;
     // the players move at units (direction) per second (rate).
     var playerRate = 1000;
     
@@ -27,7 +29,7 @@ var world = function () {
     function getPlayerPositions() {
         var playas = [];
         for (var i = 0, p; p = players[i++];) {
-                playas.push({id:p.id, pos:{x:p.px, y:p.py}});
+                playas.push({id:p.id, pos:p.pos, dir:p.dir});
         }
         return playas;
     }
@@ -44,10 +46,22 @@ var world = function () {
             players.remove(pIndex);
     }
     
-    var updatePlayerById = function(id, dir) {
+    var updatePlayerById = function(id, dirStr) {
         var pIndex = getPlayerIndexById(id);
-        if (pIndex >=0)
-            _.extend({}, players[pIndex], dir);
+        var dir;
+        if (pIndex >=0) {
+        	switch (dirStr) {
+	          case 'w': dir = {x:-playerSpeed, y:0}; break;  
+	          case 'n': dir = {x:0, y:-playerSpeed}; break;
+	          case 'e': dir = {x:playerSpeed, y:0}; break;
+	          case 's': dir = {x:0, y:playerSpeed}; break;
+	          default: return;
+	        }
+	        //console.log(dir);
+	        
+            _.extend(players[pIndex], {dir:dir});
+            console.log("update player: " + JSON.stringify(players[pIndex]));
+        }
     }
     
     // update the world state
@@ -59,10 +73,10 @@ var world = function () {
         
         console.log("crank - delta: " + dt + " tick: " + tick);
         for (var i = 0; i < players.length; i++) {
-        	players[i].px += players[i].dx * dRate;
-        	players[i].py += players[i].dy * dRate;
+        	players[i].pos.x += Math.round(players[i].dir.x * dRate);
+        	players[i].pos.y += Math.round(players[i].dir.y * dRate);
         	
-        	console.log("player " + players[i].id + " - (" + players[i].px + "," + players[i].py + ")");
+        	console.log("player " + players[i].id + " - (" + players[i].pos.x + "," + players[i].pos.y + ")");
         }
     };
     
@@ -77,10 +91,10 @@ var world = function () {
     		setCycleSpeed(data.arg1);
     	}
     	else if (data.message == "dummyPlayers") {
-    		addPlayer({id:"leo", px:10, py:10, dx:10, dy:2});
-    		addPlayer({id:"mike", px:300, py:10, dx:10, dy:2});
-    		addPlayer({id:"ralph", px:10, py:400, dx:2, dy:-1});
-    		addPlayer({id:"don", px:500, py:500, dx:-2, dy:-2});
+    		addPlayer({id:"leo", pos:{x:10, py:10}, dir:{x:10, y:2}});
+    		addPlayer({id:"mike", pos:{x:10, py:10}, dir:{x:10, y:2}});
+    		addPlayer({id:"ralph", pos:{x:10, py:10}, dir:{x:10, y:2}});
+    		addPlayer({id:"don", pos:{x:10, py:10}, dir:{x:10, y:2}});
     	}
     };
     
