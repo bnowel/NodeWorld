@@ -47,6 +47,7 @@
   function drawSquare(c, pos) {
     c.fillStyle = "#FF0000";
     c.fillRect(pos.x, pos.y, 19, 19);
+    console.log("drawSquare");
     console.log(pos);
   }
   
@@ -122,7 +123,8 @@
         console.log("player Count: " + data.players);
       });
       socket.on('update', function(data) {
-        console.log("Update tick " + data.tick);
+        console.log(data.playaData[0].pos.x);
+        drawSquare(board, data.playaData[0].pos);
       });
       $("#save").click(function() {
         var stuff = $("#name").val();
