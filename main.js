@@ -1,6 +1,7 @@
 var express = require('express'), 
     app = express.createServer(),
     io = require('socket.io').listen(app),
+    _ = require("./static/js/underscore"),
     world = require("./static/js/world");
 
 // Array Remove - By John Resig (MIT Licensed)
@@ -59,6 +60,7 @@ io.sockets.on('connection', function (socket) {
         world.updatePlayerById(socket.id, data.dir);
     });
     
+
     socket.on('disconnect', function() {
         console.log('player disconnected');
         world.removePlayerById(socket.id);

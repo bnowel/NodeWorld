@@ -1,3 +1,6 @@
+if (typeof _ === "undefined") {
+    var _ = require("./underscore");
+}
 var world = function () {
     var grid = [];
     var players =  [];
