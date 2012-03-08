@@ -41,6 +41,12 @@ var world = function () {
             players.remove(pIndex);
     }
     
+    var updatePlayerById = function(id, dir) {
+        var pIndex = getPlayerIndexById(id);
+        if (pIndex >=0)
+            _.extend({}, players[pIndex], dir);
+    }
+    
     // update the world state
     var crank = function(tick) {
     	// elapsed ticks
@@ -116,7 +122,8 @@ var world = function () {
         init:init,
         setIo: setIo,
         godSays: godSays,
-        removePlayerById: removePlayerById
+        removePlayerById: removePlayerById,
+        updatePlayerById: updatePlayerById
     };
 }();
 

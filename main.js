@@ -53,7 +53,10 @@ io.sockets.on('connection', function (socket) {
           case 'n': break;
           case 'e': break;
           case 's': break;
+          default: return;
         } 
+        
+        world.updatePlayerById(socket.id, data.dir);
     });
     
     socket.on('disconnect', function() {
