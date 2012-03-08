@@ -21,6 +21,14 @@ var world = function () {
         return -1;
     }
     
+    function getPlayerPositions() {
+        var playas = [];
+        for (var i = 0, p; p = players[i++];) {
+                playas.push({id:p.id, pos:{x:p.px, y:p.py}});
+        }
+        return playas;
+    }
+    
     // add a player to the world
     var addPlayer = function(player) {
     	console.log("add player: " + JSON.stringify(player));
@@ -45,7 +53,7 @@ var world = function () {
         	players[i].px += players[i].dx * dRate;
         	players[i].py += players[i].dy * dRate;
         	
-        	console.log("player " + players[i].name + " - (" + players[i].px + "," + players[i].py + ")");
+        	console.log("player " + players[i].id + " - (" + players[i].px + "," + players[i].py + ")");
         }
     };
     
@@ -60,10 +68,10 @@ var world = function () {
     		setCycleSpeed(data.arg1);
     	}
     	else if (data.message == "dummyPlayers") {
-    		addPlayer({name:"leo", px:10, py:10, dx:10, dy:2});
-    		addPlayer({name:"mike", px:300, py:10, dx:10, dy:2});
-    		addPlayer({name:"ralph", px:10, py:400, dx:2, dy:-1});
-    		addPlayer({name:"don", px:500, py:500, dx:-2, dy:-2});
+    		addPlayer({id:"leo", px:10, py:10, dx:10, dy:2});
+    		addPlayer({id:"mike", px:300, py:10, dx:10, dy:2});
+    		addPlayer({id:"ralph", px:10, py:400, dx:2, dy:-1});
+    		addPlayer({id:"don", px:500, py:500, dx:-2, dy:-2});
     	}
     };
     
@@ -76,7 +84,7 @@ var world = function () {
         
         // broadcast world state
         if (io) {
-            io.sockets.volatile.emit('update', {"tick": tick});
+            io.sockets.volatile.emit('update', {"tick": tick, "playaData":getPlayerPositions()});
         }
         
         lastTick = tick;
