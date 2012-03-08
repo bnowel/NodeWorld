@@ -30,10 +30,21 @@ var world = function () {
         return {x: Math.round(pos.x), y: Math.round(pos.y)};
     }
     
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++ ) {
+            color += letters[Math.round(Math.random() * 15)];
+        }
+        return color;
+    }
+    
     function getPlayerPositions() {
         var playas = [];
         for (var i = 0, p; p = players[i++];) {
-                playas.push({id:p.id, pos:roundedPos(p.pos), dir:p.dir});
+                var playaObj = {};
+                _.extend(playaObj, p, {pos:roundedPos(p.pos)});
+                playas.push(playaObj);
         }
         return playas;
     }
@@ -41,6 +52,7 @@ var world = function () {
     // add a player to the world
     var addPlayer = function(player) {
     	console.log("add player: " + JSON.stringify(player));
+        player.color = getRandomColor();
     	players.push(player);
     };
     

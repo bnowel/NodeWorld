@@ -44,8 +44,12 @@
     
     return canvas.getContext("2d");
   }
-  function drawSquare(c, pos) {
-    c.fillStyle = "#FF0000";
+  function drawSquare(c, pos, color) {
+    if (color) {
+        c.fillStyle = color;
+    } else {
+        c.fillStyle = "#FF0000";
+    }
     c.fillRect(pos.x, pos.y, 19, 19);
     console.log("drawSquare");
     console.log(pos);
@@ -55,7 +59,7 @@
       var playas = [],
         board = initCanvas();
       
-      drawSquare(board, {x: 0, y: 0});
+      //drawSquare(board, {x: 0, y: 0});
     
       function getNewPlaya(deets) {
         //console.log(deets);
@@ -126,7 +130,7 @@
         console.log(data.playaData[0].pos.x);
         
         for (var i=0, l=data.playaData.length; i < l; i++) {
-          drawSquare(board, data.playaData[i].pos);
+          drawSquare(board, data.playaData[i].pos, data.playaData[i].color);
         }
 
       });
