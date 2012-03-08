@@ -26,7 +26,7 @@ world.setIo(io);
 
 io.sockets.on('connection', function (socket) {
     // Update our list of players Add me
-    world.addPlayer({id: socket.id, px:0, py:0, dx:0, dy:0});
+    world.addPlayer({id: socket.id, pos:{x:0, y:0}, dir:{x:0, y:0}});
     world.init();
     
     socket.broadcast.emit('playerCount', {players: world.howManyPlayers()});
@@ -49,13 +49,6 @@ io.sockets.on('connection', function (socket) {
     
     socket.on('dir', function(data) {
         console.log(data);
-        switch (data.dir) {
-          case 'w': break;  
-          case 'n': break;
-          case 'e': break;
-          case 's': break;
-          default: return;
-        } 
         
         world.updatePlayerById(socket.id, data.dir);
     });
