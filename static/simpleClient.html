@@ -124,7 +124,11 @@
       });
       socket.on('update', function(data) {
         console.log(data.playaData[0].pos.x);
-        drawSquare(board, data.playaData[0].pos);
+        
+        for (var i=0, l=data.playaData.length; i < l; i++) {
+          drawSquare(board, data.playaData[i].pos);
+        }
+
       });
       $("#save").click(function() {
         var stuff = $("#name").val();
