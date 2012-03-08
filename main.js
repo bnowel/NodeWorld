@@ -25,7 +25,7 @@ world.setIo(io);
 
 io.sockets.on('connection', function (socket) {
     // Update our list of players Add me
-    world.addPlayer({id: socket.id});
+    world.addPlayer({id: socket.id, px:0, py:0, dx:0, dy:0});
     world.init();
     
     socket.broadcast.emit('playerCount', {players: world.howManyPlayers()});
