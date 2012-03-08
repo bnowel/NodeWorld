@@ -46,6 +46,15 @@ io.sockets.on('connection', function (socket) {
     	world.godSays(data);
     });
     
+    socket.on('dir', function(data) {
+        switch (data.dir) {
+          case 'w'; break;
+          case 'n'; break;
+          case 'e'; break;
+          case 's'; break;
+        } 
+    });
+    
     socket.on('disconnect', function() {
         console.log('player disconnected');
         world.removePlayerById(socket.id);

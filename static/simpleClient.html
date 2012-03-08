@@ -23,9 +23,10 @@
   <h1>Node World</h1>
   </header>
   <div role="main" class="main">
-  <div class="watermark">NodeWorld</div>
-  <canvas width="500" height="274" id="board"></canvas>
+    <div class="watermark">NodeWorld</div>
+    <canvas width="500" height="274" id="board"></canvas>
   </div>
+
   <footer>
   </footer>
   <script src="/socket.io/socket.io.js"></script>
@@ -37,6 +38,7 @@
     this.length = from < 0 ? this.length + from : from;
     return this.push.apply(this, rest);
   };
+  
   function initCanvas() {
     var canvas = document.getElementById("board");
     
@@ -108,6 +110,7 @@
       socket.on('move', function(data) {
         updatePosition(data);
       });
+
       socket.on('name', function(data) {
         updateName(data);
       });
@@ -133,12 +136,20 @@
         }
       });
 
-      $(window).mousemove(function(event) {
-        var position = {'position': {x: event.pageX, y: event.pageY}};
-        //socket.emit('move', position);  
-        //console.log(position);
+      // Only triggered once per press.  If we want to know if they are holding it down
+      // we should look at keypress.
+      $(window).keydown(function(e) {
+        var dir;
+        
+        switch (e.keyCode) {
+          case 37: dir = 'w'; break;
+          case 38: dir = 'n'; break;
+          case 39: dir = 'e'; break;
+          case 40: dir = 's'; break;
+          default: return;
+        }
+        socket.emit('dir', {'dir': dir});
       });
-
     });
   </script>
 </body>
