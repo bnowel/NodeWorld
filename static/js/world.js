@@ -13,7 +13,7 @@ var world = function () {
     // the update interval in ms
     var cycleSpeedMs = 1000;
     // the players speed in units per second
-    var playerSpeed = 5;
+    var playerSpeed = 20;
     // the players move at units (direction) per second (rate).
     var playerRate = 1000;
     
@@ -26,10 +26,14 @@ var world = function () {
         return -1;
     }
     
+    function roundedPos(pos) {
+        return {x: Math.round(pos.x), y: Math.round(pos.y)};
+    }
+    
     function getPlayerPositions() {
         var playas = [];
         for (var i = 0, p; p = players[i++];) {
-                playas.push({id:p.id, pos:p.pos, dir:p.dir});
+                playas.push({id:p.id, pos:roundedPos(p.pos), dir:p.dir});
         }
         return playas;
     }
@@ -73,8 +77,8 @@ var world = function () {
         
         console.log("crank - delta: " + dt + " tick: " + tick);
         for (var i = 0; i < players.length; i++) {
-        	players[i].pos.x += Math.round(players[i].dir.x * dRate);
-        	players[i].pos.y += Math.round(players[i].dir.y * dRate);
+        	players[i].pos.x += players[i].dir.x * dRate;
+        	players[i].pos.y += players[i].dir.y * dRate;
         	
         	console.log("player " + players[i].id + " - (" + players[i].pos.x + "," + players[i].pos.y + ")");
         }
