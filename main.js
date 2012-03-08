@@ -47,11 +47,12 @@ io.sockets.on('connection', function (socket) {
     });
     
     socket.on('dir', function(data) {
+        console.log(data);
         switch (data.dir) {
-          case 'w'; break;
-          case 'n'; break;
-          case 'e'; break;
-          case 's'; break;
+          case 'w': break;  
+          case 'n': break;
+          case 'e': break;
+          case 's': break;
         } 
     });
     
