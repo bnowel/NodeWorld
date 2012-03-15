@@ -4,7 +4,7 @@ if (typeof _ === "undefined") {
 var world = function () {
     var grid = [];
     var players =  [];
-    var minPlayersToStart = 4;
+    var minPlayersToStart = 1;
     
     var howManyPlayers = function() {return players.length;};
     var timerId = 0;
