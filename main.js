@@ -58,10 +58,12 @@ io.sockets.on('connection', function (socket) {
     });
     
     socket.on('chat', function(data) {
-        console.log("Chat: " + data);
+        console.log("Chat: " + data.message);
         
         world.addChatMessage(data, socket.id);
-        socket.broadcast.emit('chat', data);
+        var msg = {message: data.message};
+        socket.broadcast.emit('chat', msg);
+        socket.emit(msg);
     });
 
     socket.on('disconnect', function() {
