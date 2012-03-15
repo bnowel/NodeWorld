@@ -59,8 +59,8 @@
         c.fillStyle = "#FF0000";
     }
     c.fillRect(pos.x, pos.y, 19, 19);
-    console.log("drawSquare");
-    console.log(pos);
+    //console.log("drawSquare");
+    //console.log(pos);
   }
   
     $(function() {
@@ -105,6 +105,7 @@
       }
 
       function updateName(newName) {
+        /*
         var playa = getPlaya(newName.id);
         if (!playa) {
           playa = getNewPlaya(newName);
@@ -115,6 +116,7 @@
         }
         playa.icon.text(playa.name);
         playas.push(playa);
+        */
       }
 
 
@@ -129,13 +131,13 @@
       });
       socket.on('died', function(data) {
         killPlaya(data.id);
-        console.log('Player died' + JSON.stringify(data));
+        //console.log('Player died' + JSON.stringify(data));
       });
       socket.on('playerCount', function(data) {
         console.log("player Count: " + data.players);
       });
       socket.on('update', function(data) {
-        console.log(data.playaData[0].pos.x);
+        //console.log(data.playaData[0].pos.x);
         
         for (var i=0, l=data.playaData.length; i < l; i++) {
           drawSquare(board, data.playaData[i].pos, data.playaData[i].color);
@@ -143,10 +145,19 @@
 
       });
       socket.on('chat' , function(data){ 
-
-        console.log(data);
-        $("#chat-log").append($("<div><span>" + data.name + ":</span> " + data.msg + "</div>"));
+        //console.log(data);
+        $("#chat-log").append($('<div/>').text(data.msg).prepend($('<span>').text(data.name + ": ")));
       });
+      
+      function bindSubmitOnEnter($txtBox, $submitButton) {
+        $txtBox.keypress(function(e){
+            if(e.which == 13){
+                 $submitButton.triggerHandler("click");
+            }
+        });        
+      }
+      
+      bindSubmitOnEnter($('#name'), $('#save'));
       
       $("#save").click(function() {
         var stuff = $("#name").val();
@@ -159,11 +170,8 @@
         	socket.emit('god', {message:words[1],arg1:words[2]})
         }
       });
-      $("#chat-msg").keypress(function(e){
-          if(e.which == 13){
-               $("#send-chat-msg").click();
-          }
-      });
+      
+      bindSubmitOnEnter($('#chat-msg'), $('#send-chat-msg'));
       
       $("#send-chat-msg").click(function() {
           var messageFromPlayer = $("#chat-msg").val();

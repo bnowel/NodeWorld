@@ -161,7 +161,7 @@ var world = function () {
     }
     var addChatMessage = function(msgText, playerId) {
         var player = getPlayerById(playerId),
-            message = {msg: msgText, name: player.name || "Anon"};
+            message = {msg: msgText, name: player.name || "Anon", color: player.color};
         
         console.log(player);
         chatLog.push(message);
