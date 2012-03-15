@@ -16,6 +16,7 @@ var world = function () {
     var playerSpeed = 20;
     // the players move at units (direction) per second (rate).
     var playerRate = 1000;
+    var chatLog = [];
     
     function getPlayerIndexById(id) {
         for (var i = 0, l = players.length; i < l; i++) {
@@ -153,6 +154,15 @@ var world = function () {
     	clearInterval(timerId);
     	cycleSpeedMs = ms;
     	startCycle();
+    }
+    var addChatMessage = function(msg, playerId) {
+        var player = getPlayerIndexById(playerId);
+        
+        chatLog.push({msg: player.name});
+    };
+    
+    var getChatLog = function() {
+        return _.clone(chatLog);
     };
     
     var updatePlayerById = function(id, obj) {
@@ -169,6 +179,8 @@ var world = function () {
         setIo: setIo,
         godSays: godSays,
         removePlayerById: removePlayerById,
+        getChatLog: getChatLog,
+        addChatMessage: addChatMessage,
         updatePlayerDirById: updatePlayerDirById,
         updatePlayerById: updatePlayerById
     };

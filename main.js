@@ -57,6 +57,14 @@ io.sockets.on('connection', function (socket) {
         world.updatePlayerById(socket.id, data.dir);
     });
     
+    socket.on('chat', function(data) {
+        console.log("Chat: " + data.message);
+        
+        world.addChatMessage(data, socket.id);
+        var msg = {message: data.message};
+        socket.broadcast.emit('chat', msg);
+        socket.emit(msg);
+    });
 
     socket.on('disconnect', function() {
         console.log('player disconnected');
