@@ -149,6 +149,10 @@
         }
 
       });
+      socket.on('chat' , function(data){         
+          $("#chatLog").append($("<div>"+data.message+"</div>");
+      });
+      
       $("#save").click(function() {
         var stuff = $("#name").val();
         var words = stuff.split(" ");
