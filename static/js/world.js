@@ -53,7 +53,9 @@ var world = function () {
     var addPlayer = function(player) {
     	console.log("add player: " + JSON.stringify(player));
         player.color = getRandomColor();
-    	players.push(player);
+        if (getPlayerIndexById(player.id)===-1){
+    	    players.push(player);
+        }
     };
     
     var removePlayerById = function(id) {
@@ -96,6 +98,13 @@ var world = function () {
         }
     };
     
+    function addDummyPlayers(){
+    	addPlayer({id:"leo", pos:{x:10, py:10}, dir:{x:10, y:2}});
+		addPlayer({id:"mike", pos:{x:10, py:10}, dir:{x:10, y:2}});
+		addPlayer({id:"ralph", pos:{x:10, py:10}, dir:{x:10, y:2}});
+		addPlayer({id:"don", pos:{x:10, py:10}, dir:{x:10, y:2}});
+    }
+    
     // debug
     var godSays = function(data) {
     	if (data.message == "startCycle") {
@@ -107,10 +116,7 @@ var world = function () {
     		setCycleSpeed(data.arg1);
     	}
     	else if (data.message == "dummyPlayers") {
-    		addPlayer({id:"leo", pos:{x:10, py:10}, dir:{x:10, y:2}});
-    		addPlayer({id:"mike", pos:{x:10, py:10}, dir:{x:10, y:2}});
-    		addPlayer({id:"ralph", pos:{x:10, py:10}, dir:{x:10, y:2}});
-    		addPlayer({id:"don", pos:{x:10, py:10}, dir:{x:10, y:2}});
+    		addDummyPlayers();
     	}
     };
     
