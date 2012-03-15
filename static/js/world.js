@@ -67,6 +67,7 @@ var world = function () {
     var updatePlayerById = function(id, dirStr) {
         var pIndex = getPlayerIndexById(id);
         var dir;
+               
         if (pIndex >=0) {
         	switch (dirStr) {
 	          case 'w': dir = {x:-playerSpeed, y:0}; break;  
@@ -91,18 +92,25 @@ var world = function () {
         
         console.log("crank - delta: " + dt + " tick: " + tick);
         for (var i = 0; i < players.length; i++) {
-        	players[i].pos.x += players[i].dir.x * dRate;
+        	var prevX = players[i].pos.x;
+            var prevY = players[i].pos.y;
+          
+            players[i].pos.x += players[i].dir.x * dRate;
         	players[i].pos.y += players[i].dir.y * dRate;
-        	
-        	console.log("player " + players[i].id + " - (" + players[i].pos.x + "," + players[i].pos.y + ")");
+        
+            if(prevX != players[i].pos.x || prevY != players[i].pos.y)
+            {
+                ++players[i].score;
+            }            
+        	console.log("player " + players[i].id + " - (" + players[i].pos.x + "," + players[i].pos.y + "), score: " + players[i].score);
         }
     };
     
     function addDummyPlayers(){
-    	addPlayer({id:"leo", pos:{x:10, py:10}, dir:{x:10, y:2}});
-		addPlayer({id:"mike", pos:{x:10, py:10}, dir:{x:10, y:2}});
-		addPlayer({id:"ralph", pos:{x:10, py:10}, dir:{x:10, y:2}});
-		addPlayer({id:"don", pos:{x:10, py:10}, dir:{x:10, y:2}});
+    	addPlayer({id:"leo", pos:{x:10, py:10}, dir:{x:10, y:2}, score: 0});
+		addPlayer({id:"mike", pos:{x:10, py:10}, dir:{x:10, y:2}, score: 0});
+		addPlayer({id:"ralph", pos:{x:10, py:10}, dir:{x:10, y:2}, score: 0});
+		addPlayer({id:"don", pos:{x:10, py:10}, dir:{x:10, y:2}, score: 0});
     }
     
     // debug

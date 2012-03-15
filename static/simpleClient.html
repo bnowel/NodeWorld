@@ -78,7 +78,7 @@
     
       function getNewPlaya(deets) {
         //console.log(deets);
-        return $.extend({}, {id: 0, position: {x:0, y:0}, name: "", icon: $('<span class="icon"/>')}, deets);
+        return $.extend({}, {id: 0, position: {x:0, y:0}, name: "", icon: $('<span class="icon"/>'), score: 0}, deets);
       }
       function getPlaya(id) {
         for (var i = 0, l = playas.length; i < l; i++) {
@@ -86,6 +86,9 @@
             return playas[i];
           }
         }
+      }
+      function getPlayaScore(id){
+          return getPlaya(id).score;
       }
       function killPlaya(id) {
         for (var i = 0, l = playas.length; i < l; i++) {
