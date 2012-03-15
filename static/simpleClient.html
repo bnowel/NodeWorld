@@ -1,44 +1,41 @@
 <!DOCTYPE html>
 <head>
 <style type="text/css">
-  .icon {
-    position: absolute; 
-    display: inline-block;
-    padding: 5px;
-    background-color: white;
-    border-radius: 3px;
-  }
-  #board {
-    position: relative;
-    top: -274px;
-  }
-  .main {
-    overflow: hidden;
-  }
-  #chatLog {
-    height: 100px;
-    width: 100px;
-    background-color: grey;
-    overflow-y: scroll;
-  }
 </style>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<label for="name">Name</label>
-<input type="text" id="name" />
-<input type="button" id="save" value="save" />
-  <header>
-  <h1>Node World</h1>
-  </header>
-
-  <div id="chatLog"></div>
-  <input type="text" id="chatMessage" />  
-  <input type="button" id="sendChatMessage" />
-  <div role="main" class="main">
-    <div class="watermark">NodeWorld</div>
-    <canvas width="500" height="500" id="board"></canvas>
+  <header class="group">
+  <h1 id="brand">Node World</h1>
+  <div id="join">
+    <label for="name">To join enter your name</label>
+    <input type="text" id="name" />
+    <input type="button" id="save" value="save" />
   </div>
+  </header>
+  <article>
+    <section class="world-section">
+      <div role="main" class="main">
+        <div class="watermark">NodeWorld</div>
+        <canvas width="500" height="500" id="board"></canvas>
+      </div>
+    </section>
+    <section class="chat-section">
+      <div id="chat-title">
+        World Chat
+      </div>
+      <div id="chat-log">
+        <div class="msg"><span>Bernie: </span>Hey guys...</div>
+        <div class="msg"><span>Bernie: </span>any one in here?</div>
+        <div class="msg"><span>Bernie: </span>Hello?</div>
+        <div class="msg"><span>Bernie: </span>Hello!?!!!?</div>
+      </div>
+      <div id="chat-controls">
+        <input type="text" id="chat-msg" />  
+        <input type="button" id="send-chat-msg" value="send" />
+      </div>
+    </section>
+  </article>
   
 
 
@@ -152,7 +149,7 @@
       socket.on('chat' , function(data){ 
 
         console.log(data);
-        $("#chatLog").append($("<div>" + data.name + ": " + data.msg + "</div>"));
+        $("#chat-log").append($("<div><span>" + data.name + ":</span> " + data.msg + "</div>"));
       });
       
       $("#save").click(function() {
@@ -166,18 +163,18 @@
         	socket.emit('god', {message:words[1],arg1:words[2]})
         }
       });
-      $("#chatMessage").keypress(function(e){
+      $("#chat-msg").keypress(function(e){
           if(e.which == 13){
-               $("#sendChatMessage").click();
+               $("#send-chat-msg").click();
           }
       });
       
-      $("#sendChatMessage").click(function() {
-          var messageFromPlayer = $("#chatMessage").val();
+      $("#send-chat-msg").click(function() {
+          var messageFromPlayer = $("#chat-msg").val();
           if(messageFromPlayer != "") {
             socket.emit('chat', {message: messageFromPlayer});
           }
-           $("#chatMessage").val("");                   
+           $("#chat-msg").val("");                   
         });
       
       // Only triggered once per press.  If we want to know if they are holding it down
