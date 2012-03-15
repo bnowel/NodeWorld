@@ -149,7 +149,7 @@
       socket.on('chat' , function(data){ 
 
         console.log(data);
-        $("#chat-log").append($("<div>" + data.name + ": " + data.msg + "</div>"));
+        $("#chat-log").append($("<div><span>" + data.name + ":</span> " + data.msg + "</div>"));
       });
       
       $("#save").click(function() {
