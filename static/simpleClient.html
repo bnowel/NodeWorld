@@ -149,7 +149,7 @@
       socket.on('chat' , function(data){ 
 
         console.log(data);
-        $("#chatLog").append($("<div>" + data.name + ": " + data.msg + "</div>"));
+        $("#chat-log").append($("<div>" + data.name + ": " + data.msg + "</div>"));
       });
       
       $("#save").click(function() {
@@ -163,18 +163,18 @@
         	socket.emit('god', {message:words[1],arg1:words[2]})
         }
       });
-      $("#chatMessage").keypress(function(e){
+      $("#chat-msg").keypress(function(e){
           if(e.which == 13){
-               $("#sendChatMessage").click();
+               $("#send-chat-msg").click();
           }
       });
       
-      $("#sendChatMessage").click(function() {
-          var messageFromPlayer = $("#chatMessage").val();
+      $("#send-chat-msg").click(function() {
+          var messageFromPlayer = $("#chat-msg").val();
           if(messageFromPlayer != "") {
             socket.emit('chat', {message: messageFromPlayer});
           }
-           $("#chatMessage").val("");                   
+           $("#chat-msg").val("");                   
         });
       
       // Only triggered once per press.  If we want to know if they are holding it down
