@@ -120,7 +120,7 @@
       });
 
       socket.on('name', function(data) {
-        updateName(data);
+        //updateName(data);
       });
       socket.on('died', function(data) {
         killPlaya(data.id);
@@ -130,7 +130,7 @@
         console.log("player Count: " + data.players);
       });
       socket.on('update', function(data) {
-        console.log(data.playaData[0].pos.x);
+        console.log(data);
         
         for (var i=0, l=data.playaData.length; i < l; i++) {
           drawSquare(board, data.playaData[i].pos, data.playaData[i].color);

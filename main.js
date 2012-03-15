@@ -39,8 +39,11 @@ io.sockets.on('connection', function (socket) {
     
     // Initialize player (join game)
     socket.on('name', function(data) {
+        console.log("NAME SENT:")
+        console.log(data.name)
         data.id = socket.id;
-        socket.broadcast.emit('name', data); 
+        socket.broadcast.emit('name', data);
+        world.updatePlayerById(socket.id, {"name":data.name});
     });
     
     // God commands
