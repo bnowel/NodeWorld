@@ -16,6 +16,7 @@ var world = function () {
     var playerSpeed = 20;
     // the players move at units (direction) per second (rate).
     var playerRate = 1000;
+    var chatLog = [];
     
     function getPlayerIndexById(id) {
         for (var i = 0, l = players.length; i < l; i++) {
@@ -24,6 +25,10 @@ var world = function () {
         }
         
         return -1;
+    }
+    
+    function getPlayerById(id) {
+        return players[getPlayerIndexById(id)];
     }
     
     function roundedPos(pos) {
@@ -39,7 +44,7 @@ var world = function () {
         return color;
     }
     
-    function getPlayerPositions() {
+    function getPlayerData() {
         var playas = [];
         for (var i = 0, p; p = players[i++];) {
                 var playaObj = {};
@@ -64,7 +69,9 @@ var world = function () {
             players.remove(pIndex);
     }
     
-    var updatePlayerById = function(id, dirStr) {
+    
+    
+    var updatePlayerDirById = function(id, dirStr) {
         var pIndex = getPlayerIndexById(id);
         var dir;
         if (pIndex >=0) {
@@ -129,7 +136,7 @@ var world = function () {
         
         // broadcast world state
         if (io) {
-            io.sockets.volatile.emit('update', {"tick": tick, "playaData":getPlayerPositions()});
+            io.sockets.volatile.emit('update', {"tick": tick, "playaData":getPlayerData()});
         }
         
         lastTick = tick;
@@ -152,7 +159,25 @@ var world = function () {
     	cycleSpeedMs = ms;
     	startCycle();
     }
+    var addChatMessage = function(msgText, playerId) {
+        var player = getPlayerById(playerId),
+            message = {msg: msgText, name: player.name || "Anon"};
+        
+        console.log(player);
+        chatLog.push(message);
+        
+        return message;
+    };
     
+    var getChatLog = function() {
+        return _.clone(chatLog);
+    };
+    
+    var updatePlayerById = function(id, obj) {
+        var pIndex = getPlayerIndexById(id);
+            _.extend(players[pIndex], obj);
+            console.log("update player: " + JSON.stringify(players[pIndex]));
+    }
     
     return {
         addPlayer:addPlayer ,
@@ -162,6 +187,9 @@ var world = function () {
         setIo: setIo,
         godSays: godSays,
         removePlayerById: removePlayerById,
+        getChatLog: getChatLog,
+        addChatMessage: addChatMessage,
+        updatePlayerDirById: updatePlayerDirById,
         updatePlayerById: updatePlayerById
     };
 }();
