@@ -60,8 +60,8 @@ io.sockets.on('connection', function (socket) {
     socket.on('chat', function(data) {
         console.log("Chat: " + data.message);
         
-        world.addChatMessage(data, socket.id);
-        var msg = {message: data.message};
+        var msg = world.addChatMessage(data.message, socket.id);
+        console.log(msg);
         socket.broadcast.emit('chat', msg);
         socket.emit('chat', msg);
     });

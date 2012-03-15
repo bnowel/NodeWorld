@@ -155,10 +155,13 @@ var world = function () {
     	cycleSpeedMs = ms;
     	startCycle();
     }
-    var addChatMessage = function(msg, playerId) {
-        var player = getPlayerIndexById(playerId);
+    var addChatMessage = function(msgText, playerId) {
+        var player = getPlayerIndexById(playerId),
+            message = {msg: msgText, name: player.name};
         
-        chatLog.push({msg: player.name});
+        chatLog.push(message);
+        
+        return message;
     };
     
     var getChatLog = function() {
