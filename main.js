@@ -39,8 +39,11 @@ io.sockets.on('connection', function (socket) {
     
     // Initialize player (join game)
     socket.on('name', function(data) {
+        console.log("NAME SENT:")
+        console.log(data.name)
         data.id = socket.id;
-        socket.broadcast.emit('name', data); 
+        socket.broadcast.emit('name', data);
+        world.updatePlayerById(socket.id, {"name":data.name});
     });
     
     // God commands
@@ -51,9 +54,17 @@ io.sockets.on('connection', function (socket) {
     socket.on('dir', function(data) {
         console.log(data);
         
-        world.updatePlayerById(socket.id, data.dir);
+        world.updatePlayerDirById(socket.id, data.dir);
     });
     
+    socket.on('chat', function(data) {
+        console.log("Chat: " + data.message);
+        
+        var msg = world.addChatMessage(data.message, socket.id);
+        console.log(msg);
+        socket.broadcast.emit('chat', msg);
+        socket.emit('chat', msg);
+    });
 
     socket.on('disconnect', function() {
         console.log('player disconnected');

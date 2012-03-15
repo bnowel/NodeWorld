@@ -152,6 +152,12 @@
         }
 
       });
+      socket.on('chat' , function(data){ 
+
+        console.log(data);
+        $("#chatLog").append($("<div>" + data.name + ": " + data.msg + "</div>"));
+      });
+      
       $("#save").click(function() {
         var stuff = $("#name").val();
         var words = stuff.split(" ");
@@ -163,7 +169,20 @@
         	socket.emit('god', {message:words[1],arg1:words[2]})
         }
       });
-
+      $("#chatMessage").keypress(function(e){
+          if(e.which == 13){
+               $("#sendChatMessage").click();
+          }
+      });
+      
+      $("#sendChatMessage").click(function() {
+          var messageFromPlayer = $("#chatMessage").val();
+          if(messageFromPlayer != "") {
+            socket.emit('chat', {message: messageFromPlayer});
+          }
+           $("#chatMessage").val("");                   
+        });
+      
       // Only triggered once per press.  If we want to know if they are holding it down
       // we should look at keypress.
       $(window).keydown(function(e) {
