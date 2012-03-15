@@ -39,7 +39,7 @@ var world = function () {
         return color;
     }
     
-    function getPlayerPositions() {
+    function getPlayerData() {
         var playas = [];
         for (var i = 0, p; p = players[i++];) {
                 var playaObj = {};
@@ -64,7 +64,9 @@ var world = function () {
             players.remove(pIndex);
     }
     
-    var updatePlayerById = function(id, dirStr) {
+    
+    
+    var updatePlayerDirById = function(id, dirStr) {
         var pIndex = getPlayerIndexById(id);
         var dir;
         if (pIndex >=0) {
@@ -129,7 +131,7 @@ var world = function () {
         
         // broadcast world state
         if (io) {
-            io.sockets.volatile.emit('update', {"tick": tick, "playaData":getPlayerPositions()});
+            io.sockets.volatile.emit('update', {"tick": tick, "playaData":getPlayerData()});
         }
         
         lastTick = tick;
@@ -151,8 +153,13 @@ var world = function () {
     	clearInterval(timerId);
     	cycleSpeedMs = ms;
     	startCycle();
-    }
+    };
     
+    var updatePlayerById = function(id, obj) {
+        var pIndex = getPlayerIndexById(id);
+            _.extend(players[pIndex], obj);
+            console.log("update player: " + JSON.stringify(players[pIndex]));
+    }
     
     return {
         addPlayer:addPlayer ,
@@ -162,6 +169,7 @@ var world = function () {
         setIo: setIo,
         godSays: godSays,
         removePlayerById: removePlayerById,
+        updatePlayerDirById: updatePlayerDirById,
         updatePlayerById: updatePlayerById
     };
 }();
