@@ -27,6 +27,10 @@ var world = function () {
         return -1;
     }
     
+    function getPlayerById(id) {
+        return players[getPlayerIndexById(id)];
+    }
+    
     function roundedPos(pos) {
         return {x: Math.round(pos.x), y: Math.round(pos.y)};
     }
@@ -156,9 +160,10 @@ var world = function () {
     	startCycle();
     }
     var addChatMessage = function(msgText, playerId) {
-        var player = getPlayerIndexById(playerId),
-            message = {msg: msgText, name: player.name};
+        var player = getPlayerById(playerId),
+            message = {msg: msgText, name: player.name || "Anon"};
         
+        console.log(player);
         chatLog.push(message);
         
         return message;

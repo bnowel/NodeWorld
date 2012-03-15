@@ -150,10 +150,9 @@
 
       });
       socket.on('chat' , function(data){ 
-        var packet = data.message;
 
-        console.log(packet);
-        $("#chatLog").append($("<div>" + packet.name + ": " + packet.msg + "</div>"));
+        console.log(data);
+        $("#chatLog").append($("<div>" + data.name + ": " + data.msg + "</div>"));
       });
       
       $("#save").click(function() {
