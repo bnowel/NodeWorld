@@ -63,7 +63,7 @@ io.sockets.on('connection', function (socket) {
         world.addChatMessage(data, socket.id);
         var msg = {message: data.message};
         socket.broadcast.emit('chat', msg);
-        socket.emit(msg);
+        socket.emit('chat', msg);
     });
 
     socket.on('disconnect', function() {
