@@ -6,7 +6,7 @@ var world = function () {
 	var gridW = 30;
     var grid = [];
     var players =  [];
-    var minPlayersToStart = 4;
+    var minPlayersToStart = 1;
     
     var howManyPlayers = function() {return players.length;};
     var timerId = 0;
@@ -21,6 +21,7 @@ var world = function () {
     var playerRate = 1000;
     // the current tick spinner (a 1 second tick spinner) - used to figure out when a second is up
     var tickSpinner = 0;
+    var chatLog = [];
     
     function getPlayerIndexById(id) {
         for (var i = 0, l = players.length; i < l; i++) {
@@ -29,6 +30,10 @@ var world = function () {
         }
         
         return -1;
+    }
+    
+    function getPlayerById(id) {
+        return players[getPlayerIndexById(id)];
     }
     
     function roundedPos(pos) {
@@ -195,6 +200,19 @@ var world = function () {
     	clearInterval(timerId);
     	cycleSpeedMs = ms;
     	startCycle();
+    }
+    var addChatMessage = function(msgText, playerId) {
+        var player = getPlayerById(playerId),
+            message = {msg: msgText, name: player.name || "Anon", color: player.color};
+        
+        console.log(player);
+        chatLog.push(message);
+        
+        return message;
+    };
+    
+    var getChatLog = function() {
+        return _.clone(chatLog);
     };
     
     var updatePlayerById = function(id, obj) {
@@ -211,6 +229,8 @@ var world = function () {
         setIo: setIo,
         godSays: godSays,
         removePlayerById: removePlayerById,
+        getChatLog: getChatLog,
+        addChatMessage: addChatMessage,
         updatePlayerDirById: updatePlayerDirById,
         updatePlayerById: updatePlayerById
     };

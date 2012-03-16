@@ -1,4 +1,36 @@
+/* ----------------------------------------
+   utilities 
+   ---------------------------------------*/
+
+/* clear fix */
+.group:before,
+.group:after {
+    content:"";
+    display:table;
+}
+.group:after {
+    clear:both;
+}
+
+/* For IE 6/7 (trigger hasLayout) */
+.container {
+    zoom:1;
+}
+
+/* ----------------------------------------
+   typography 
+   ---------------------------------------*/
+h1 {
+}
+
+
+/* ----------------------------------------
+   begin of page styles 
+   ---------------------------------------*/
+
 html  {
+  padding: 0px;
+  margin: 0px;
   font-family: "helvetica", arial, sans-sarif;
   background: #212121; /* Old browsers */
   background: -moz-radial-gradient(center, ellipse cover, #383838 31%, #0a0a0a 100%); /* FF3.6+ */
@@ -9,21 +41,68 @@ html  {
   background: radial-gradient(center, ellipse cover, #313131 31%,#0a0a0a 100%); /* W3C */
 }
 
-
-h1 {
-  color: #000;
-  width: 520px;
-  margin: 10px auto;
-  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.10);
+body { 
+  padding: 0px;
+  margin: 0px;
 }
 
-.main {
+
+/* ----------------------------------------
+   header 
+   ---------------------------------------*/
+header {
+  background-color: #222;
+  margin-bottom: 40px;
+}
+
+header #brand {
+  color: #fff;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 1.00);
+  padding: 10px;
+  margin: 0px;
+  float: left;
+}
+
+header #join {
+  color: #fff;
+  float: right;
+  padding: 10px;
+  background: #338;
+  border-radius: 4px;
+  margin: 5px;
+}
+
+/* ----------------------------------------
+   .world-section
+   ---------------------------------------*/
+.world-section {
+  float: left;
+  width: 65%;
+  margin: 0px;
+}
+
+.world-section .icon {
+  position: absolute; 
+  display: inline-block;
+  padding: 5px;
+  background-color: white;
+  border-radius: 3px;
+}
+
+.world-section #board {
+  position: relative;
+  top: -274px;
+}
+
+.world-section .main {
   width: 500px;
   height: 500px;
   background: #555;
   margin: 0 auto;
+  margin-top: 30px;
   border: #222 solid 10px;
   text-align: center;
+  overflow: hidden;
   
   -webkit-background-size: 20px 20px;
   -moz-background-size: 20px 20px;
@@ -36,10 +115,59 @@ h1 {
               -webkit-linear-gradient(0deg, transparent 95%, rgba(0, 0, 0, .1) 50%, rgba(0, 0, 0, .1));
 }
 
-.main .watermark {
+.world-section .main .watermark {
   font-size: 60px;
   padding-top: 205px;
   color: rgba(0,0,0,0.1);
 }
 
 
+/* ----------------------------------------
+   .chat-section
+   ---------------------------------------*/
+
+.chat-section {
+  float: right;
+  width: 35%;
+  min-width: 300px;
+}
+
+.chat-section #chat-title{
+  color: #222;
+  font-size: 16px;
+  height: 30px;
+}
+
+.chat-section #chat-log {
+  border: #222 solid 10px;
+  padding: 10px;
+  height: 420px;
+  width: auto;
+  background-color: #000;
+  overflow-y: scroll;
+  color: #fff;
+}
+
+.chat-section #chat-log .msg {
+  color: #ddd;
+}
+.chat-section #chat-log span {
+  color: #7f7;
+}
+
+.chat-section #chat-controls {
+  background: #222;
+  padding: 10px; 
+}
+
+.chat-section #chat-controls #chat-msg {
+  width: 200px;
+}
+
+.chat-section #chat-controls #send-chat-msg {
+}
+
+
+/* ----------------------------------------
+   footer 
+   ---------------------------------------*/
