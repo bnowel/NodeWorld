@@ -2,6 +2,8 @@ if (typeof _ === "undefined") {
     var _ = require("./underscore");
 }
 var world = function () {
+	var gridH = 20;
+	var gridW = 30;
     var grid = [];
     var players =  [];
     var minPlayersToStart = 4;
@@ -9,13 +11,16 @@ var world = function () {
     var howManyPlayers = function() {return players.length;};
     var timerId = 0;
     var io = null;
+    // last tick value
     var lastTick;
     // the update interval in ms
     var cycleSpeedMs = 1000;
     // the players speed in units per second
-    var playerSpeed = 20;
+    var playerSpeed = 1;
     // the players move at units (direction) per second (rate).
     var playerRate = 1000;
+    // the current tick spinner (a 1 second tick spinner) - used to figure out when a second is up
+    var tickSpinner = 0;
     
     function getPlayerIndexById(id) {
         for (var i = 0, l = players.length; i < l; i++) {
@@ -84,20 +89,53 @@ var world = function () {
         }
     }
     
+    // initialize the world model for a new game.
+    var initWorld = function() {
+    	grid = new Array(gridW)
+
+		for (var i = 0; i < gridW; i++) {
+			grid[i]=new Array(gridH);
+		}
+		
+		// start players off in a direction when game starts
+		//for (var i = 0; i < players.length; i++) {
+		//	players[i].dir.x = playerSpeed;
+		//}
+    }
+    
     // update the world state
     var crank = function(tick) {
-    	// elapsed ticks
-    	var dt = tick - lastTick;
-    	// elapsed per second clock rate (how much time in seconds has elapsed since last cycle)
-    	var dRate = (dt / playerRate);
-        
-        console.log("crank - delta: " + dt + " tick: " + tick);
-        for (var i = 0; i < players.length; i++) {
-        	players[i].pos.x += players[i].dir.x * dRate;
-        	players[i].pos.y += players[i].dir.y * dRate;
-        	
-        	console.log("player " + players[i].id + " - (" + players[i].pos.x + "," + players[i].pos.y + ")");
-        }
+		// elapsed ticks
+		var dt = tick - lastTick;
+		tickSpinner += dt;
+		
+		// elapsed per second clock rate (how much time in seconds has elapsed since last cycle)
+		//var dRate = (dt / playerRate);
+		
+		// update player positions if a second has elapsed
+		if (tickSpinner > 1000) {
+			//console.log("crank - delta: " + dt + " tick: " + tick);
+			// update player positions
+			for (var i = 0; i < players.length; i++) {
+				// spatial float position updates (overkill currently)
+				//players[i].pos.x += players[i].dir.x * dRate;
+				//players[i].pos.y += players[i].dir.y * dRate;
+				players[i].pos.x += players[i].dir.x;
+				players[i].pos.y += players[i].dir.y;
+				
+				//console.log("* " + players[i].pos.x + " - " + players[i].pos.y + " - " + grid[players[i].pos.x, players[i].pos.y]);
+				// collision
+				if (grid[players[i].pos.x][players[i].pos.y]) {
+					console.log("player " + players[i].id + 
+					  " collision at (" + players[i].pos.x + "," + players[i].pos.y + ")");
+				}
+				grid[players[i].pos.x][players[i].pos.y] = players[i].id;
+				
+				//console.log("player " + players[i].id + " - (" + players[i].pos.x + "," + players[i].pos.y + ")");
+			}
+			
+			tickSpinner %= 1000; // spin around
+		}
     };
     
     function addDummyPlayers(){
@@ -111,6 +149,7 @@ var world = function () {
     var godSays = function(data) {
     	if (data.message == "startCycle") {
     		console.log("force cycle start");
+    		initWorld();
     		startCycle();
     	}
     	else if (data.message == "setCycle") {
@@ -136,10 +175,13 @@ var world = function () {
         
         lastTick = tick;
     };
+    
+    // start the game
     var init = function() {
         if (timerId || howManyPlayers() < minPlayersToStart)
             return;
         
+        initWorld();
         startCycle();
     };
     var startCycle = function() {

@@ -54,7 +54,8 @@ io.sockets.on('connection', function (socket) {
     socket.on('dir', function(data) {
         console.log(data);
         
-        world.updatePlayerById(socket.id, data.dir);
+        //world.updatePlayerById(socket.id, data.dir);
+        world.updatePlayerDirById(socket.id, data.dir);
     });
     
 
