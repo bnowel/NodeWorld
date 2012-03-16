@@ -68,6 +68,9 @@
         board = initCanvas();
       
       //drawSquare(board, {x: 0, y: 0});
+      function worldToScreen(pos) {
+      	return { x: pos.x * 20, y: pos.y * 20 };
+      }
     
       function getNewPlaya(deets) {
         //console.log(deets);
@@ -140,7 +143,9 @@
         //console.log(data.playaData[0].pos.x);
         
         for (var i=0, l=data.playaData.length; i < l; i++) {
-          drawSquare(board, data.playaData[i].pos, data.playaData[i].color);
+          // convert world to screen
+          var sp = worldToScreen(data.playaData[i].pos);
+          drawSquare(board, sp, data.playaData[i].color);
         }
 
       });
