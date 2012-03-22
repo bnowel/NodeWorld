@@ -110,24 +110,24 @@ var world = function () {
         var x,y,dir,retObj;
         switch (i) {
             case 1:
-                x=0;
-                y=0;
-                dir="e";
+                x = 0;
+                y = 0;
+                dir = "e";
                 break;
             case 0:
-                x=gridW;
-                y=0;
-                dir="s";
+                x = gridW - 1;
+                y = 0;
+                dir = "s";
                 break;
             case 2:
-                x=gridW;
-                y=gridH;
+                x=gridW - 1;
+                y=gridH - 1;
                 dir="w"
                 break;
             case 3:
                 x=0;
-                y=gridH;
-                dir="n"
+                y=gridH - 1;
+                dir="n";
             default:
                 break;
         }
