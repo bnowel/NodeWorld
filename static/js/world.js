@@ -170,7 +170,7 @@ var world = function () {
 				// spatial float position updates (overkill currently)
 				//players[i].pos.x += players[i].dir.x * dRate;
 				//players[i].pos.y += players[i].dir.y * dRate;
-				if (!players[i])
+				if (!players[i].pos)
 				    continue;
 				    
 				players[i].pos.x += players[i].dir.x;
