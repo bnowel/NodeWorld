@@ -7,6 +7,7 @@ var world = function () {
     var grid = [];
     var players =  [];
     var minPlayersToStart = 1;
+    var maxPlayers = 4;
     
     var howManyPlayers = function() {return players.length;};
     var timerId = 0;
@@ -65,7 +66,7 @@ var world = function () {
     var addPlayer = function(player) {
     	console.log("add player: " + JSON.stringify(player));
         player.color = getRandomColor();
-        if (getPlayerIndexById(player.id)===-1){
+        if (getPlayerIndexById(player.id)===-1 && players.length < maxPlayers){
     	    players.push(player);
             setInitPosition(getPlayerIndexById(player.id));
             console.log(players);
