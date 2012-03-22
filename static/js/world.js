@@ -67,8 +67,14 @@ var world = function () {
         player.color = getRandomColor();
         if (getPlayerIndexById(player.id)===-1){
     	    players.push(player);
+            setInitPosition(getPlayerIndexById(player.id));
+            console.log(players);
         }
     };
+    
+    function setInitPosition(i) {
+        _.extend(players[i], getInitCoordsAndDir(i));
+    }
     
     var removePlayerById = function(id) {
         var pIndex = getPlayerIndexById(id);
@@ -76,24 +82,57 @@ var world = function () {
             players.remove(pIndex);
     }
     
-    
-    
-    var updatePlayerDirById = function(id, dirStr) {
-        var pIndex = getPlayerIndexById(id);
+    function getDirObj(d){
         var dir;
-        if (pIndex >=0) {
-        	switch (dirStr) {
-	          case 'w': dir = {x:-playerSpeed, y:0}; break;  
+        switch (d) {
+              case 'w': dir = {x:-playerSpeed, y:0}; break;  
 	          case 'n': dir = {x:0, y:-playerSpeed}; break;
 	          case 'e': dir = {x:playerSpeed, y:0}; break;
 	          case 's': dir = {x:0, y:playerSpeed}; break;
 	          default: return;
 	        }
+        return dir;
+    }
+    
+    var updatePlayerDirById = function(id, dirStr) {
+        var pIndex = getPlayerIndexById(id);
+        var dir;
+        if (pIndex >=0) {
+        	dir = getDirObj(dirStr);
 	        //console.log(dir);
 	        
             _.extend(players[pIndex], {dir:dir});
             console.log("update player: " + JSON.stringify(players[pIndex]));
         }
+    }
+    
+    function getInitCoordsAndDir(i){
+        var x,y,dir,retObj;
+        switch (i) {
+            case 1:
+                x=0;
+                y=0;
+                dir="e";
+                break;
+            case 0:
+                x=gridW;
+                y=0;
+                dir="s";
+                break;
+            case 2:
+                x=gridW;
+                y=gridH;
+                dir="w"
+                break;
+            case 3:
+                x=0;
+                y=gridH;
+                dir="n"
+            default:
+                break;
+        }
+        retObj =  {pos:{x:x,y:y},dir:getDirObj(dir)};
+        return retObj;
     }
     
     // initialize the world model for a new game.
