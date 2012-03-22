@@ -24,7 +24,7 @@ app.get('/', function (req, res) {
 });
 world.setIo(io);
 world.setPlayerDiedCallback(function(player) {
-  io.sockets.emit('playerDied', {id: player.id})
+  io.sockets.emit('playerDied', {id: player.id, name: player.name, color: player.color})
 });
 
 io.sockets.on('connection', function (socket) {

@@ -136,8 +136,8 @@
         updateName(data);
       });
       socket.on('died', function(data) {
-        killPlaya(data.id);
-        //console.log('Player died' + JSON.stringify(data));
+        //console.log('Player died: ' + data.name +  JSON.stringify(data));
+        killPlaya(data.id); 
       });
       socket.on('playerCount', function(data) {
         console.log("player Count: " + data.players);
@@ -154,11 +154,17 @@
       });
       socket.on('playerDied', function(data) {
         console.log("Player " + data.id + " died");
+        chat_console(data.name + " died", data.color);
       });
       socket.on('chat' , function(data){ 
         //console.log(data);
-        $("#chat-log").append($('<div/>').text(data.msg).prepend($('<span>').text(data.name + ": ")));
+        $("#chat-log").append($('<div/>').text(data.msg).prepend($('<span>').css("color",data.color).text(data.name + ": ")));
       });
+      
+      function chat_console(console_msg, color) {
+       color = color || '#ddd';
+       $("#chat-log").append($('<div/>').prepend($('<span>').css("color",color).text(console_msg)));
+      }
       
       function bindSubmitOnEnter($txtBox, $submitButton) {
         $txtBox.keypress(function(e){

@@ -7,7 +7,6 @@ var world = function () {
     var grid = [];
     var players =  [];
     var minPlayersToStart = 1;
-    var maxPlayers = 4;
     
     var howManyPlayers = function() {return players.length;};
     var timerId = 0;
@@ -26,7 +25,6 @@ var world = function () {
     
     var playerDiedCallback = function() { 
         console.log("Player died");
-        
     };
     
     function getPlayerIndexById(id) {
@@ -69,8 +67,7 @@ var world = function () {
     var addPlayer = function(player) {
     	console.log("add player: " + JSON.stringify(player));
         player.color = getRandomColor();
-        player.status = "playing";
-        if (getPlayerIndexById(player.id)===-1 && players.length < maxPlayers){
+        if (getPlayerIndexById(player.id)===-1){
     	    players.push(player);
             setInitPosition(getPlayerIndexById(player.id));
             console.log(players);
@@ -177,9 +174,6 @@ var world = function () {
 				//players[i].pos.y += players[i].dir.y * dRate;
 				if (!players[i] || !players[i].pos || !players[i].dir)
 				    continue;
-
-                if (players[i].status != "playing")
-                    continue;
 				    
 				players[i].pos.x += players[i].dir.x;
 				players[i].pos.y += players[i].dir.y;
@@ -191,7 +185,8 @@ var world = function () {
 				    console.log("player " + players[i].id + 
 					  " collision at (" + players[i].pos.x + "," + players[i].pos.y + ")");
 				    playerDiedCallback(players[i]);
-                    players[i].status = "dead";
+				    removePlayerById(players[i].id);
+				    i--;
 					
 				} else {
     				grid[players[i].pos.x][players[i].pos.y] = players[i].id;				    

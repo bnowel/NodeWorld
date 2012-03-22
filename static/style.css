@@ -162,7 +162,7 @@ header #joined a, a:visited {
   color: #ddd;
 }
 .chat-section #chat-log span {
-  color: #7f7;
+  xcolor: #7f7;
 }
 
 .chat-section #chat-controls {
