@@ -2,7 +2,7 @@ if (typeof _ === "undefined") {
     var _ = require("./underscore");
 }
 var world = function () {
-	var gridH = 20;
+	var gridH = 25;
 	var gridW = 20;
     var grid = [];
     var players =  [];
@@ -170,7 +170,7 @@ var world = function () {
 				// spatial float position updates (overkill currently)
 				//players[i].pos.x += players[i].dir.x * dRate;
 				//players[i].pos.y += players[i].dir.y * dRate;
-				if (!players[i].pos)
+				if (!players[i] || !players[i].pos || !players[i].dir)
 				    continue;
 				    
 				players[i].pos.x += players[i].dir.x;
