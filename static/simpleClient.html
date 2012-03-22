@@ -12,6 +12,9 @@
     <input type="text" id="name" />
     <input type="button" id="save" value="save" />
   </div>
+  <div id="joined">
+    <span id="joined-name"></span>  <a href="#" id="edit-name">edit</a>
+  </div>
   </header>
   <article>
     <section class="world-section">
@@ -170,13 +173,29 @@
       $("#save").click(function() {
         var stuff = $("#name").val();
         var words = stuff.split(" ");
-
-        if (words[0] != "god") {
+        if (stuff === "") {
+          $("#name").css('background-color', '#faa'); 
+          $("#name").css('border-color', '#944'); 
+        }
+        else if (words[0] != "god") {
         	socket.emit('name', { name: $("#name").val() });
+          $("#joined #joined-name").text($("#name").val());
+          $("#join").hide();
+          $("#joined").show();
         }
         else {
         	socket.emit('god', {message:words[1],arg1:words[2]})
         }
+      });
+
+      $("#name").focus(function() {
+        $("#name").css('background-color', ''); 
+        $("#name").css('border-color', ''); 
+      });
+      
+      $("#edit-name").click(function() {
+          $("#joined").hide();
+          $("#join").show();
       });
       
       bindSubmitOnEnter($('#chat-msg'), $('#send-chat-msg'));
