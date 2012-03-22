@@ -3,7 +3,7 @@ if (typeof _ === "undefined") {
 }
 var world = function () {
 	var gridH = 25;
-	var gridW = 20;
+	var gridW = 25;
     var grid = [];
     var players =  [];
     var minPlayersToStart = 1;
@@ -181,7 +181,8 @@ var world = function () {
 				//console.log(grid[players[i].pos.x][players[i].pos.y]);
 				if (playerHitBorder(players[i]) || grid[players[i].pos.x][players[i].pos.y]) {
 				    playerDiedCallback(players[i]);
-				    players[i].Speed = 0;
+				    players[i].dir.x = 0;
+				    players[i].dir.y = 0;
 					console.log("player " + players[i].id + 
 					  " collision at (" + players[i].pos.x + "," + players[i].pos.y + ")");
 				} else {
