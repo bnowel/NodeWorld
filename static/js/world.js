@@ -180,11 +180,12 @@ var world = function () {
 				// collision
 				//console.log(grid[players[i].pos.x][players[i].pos.y]);
 				if (playerHitBorder(players[i]) || grid[players[i].pos.x][players[i].pos.y]) {
-				    playerDiedCallback(players[i]);
-				    players[i].dir.x = 0;
-				    players[i].dir.y = 0;
-					console.log("player " + players[i].id + 
+				    console.log("player " + players[i].id + 
 					  " collision at (" + players[i].pos.x + "," + players[i].pos.y + ")");
+				    playerDiedCallback(players[i]);
+				    removePlayerById(players[i].id);
+				    i--;
+					
 				} else {
     				grid[players[i].pos.x][players[i].pos.y] = players[i].id;				    
 				}
