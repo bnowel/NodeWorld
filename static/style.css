@@ -63,7 +63,7 @@ header #brand {
   float: left;
 }
 
-header #join {
+header #join, header #joined {
   color: #fff;
   float: right;
   padding: 10px;
@@ -72,6 +72,16 @@ header #join {
   margin: 5px;
 }
 
+header #joined {
+  display: none;
+}
+
+header #joined #joined-name {
+}
+
+header #joined a, a:visited {
+  color: #77a;
+}
 /* ----------------------------------------
    .world-section
    ---------------------------------------*/
