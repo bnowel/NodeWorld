@@ -3,7 +3,7 @@ if (typeof _ === "undefined") {
 }
 var world = function () {
 	var gridH = 20;
-	var gridW = 30;
+	var gridW = 20;
     var grid = [];
     var players =  [];
     var minPlayersToStart = 1;
