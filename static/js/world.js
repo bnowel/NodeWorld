@@ -23,6 +23,8 @@ var world = function () {
     var tickSpinner = 0;
     var chatLog = [];
     
+    var playerDiedCallback = function() { console.log("Player died")};
+    
     function getPlayerIndexById(id) {
         for (var i = 0, l = players.length; i < l; i++) {
             if(players[i].id == id)
@@ -107,6 +109,10 @@ var world = function () {
 		//	players[i].dir.x = playerSpeed;
 		//}
     }
+    function playerHitBorder(player) {
+        return (player.pos.x < 0 || player.pos.x >= gridW ||
+                player.pos.y < 0 || player.pos.y >= gridH);
+    }
     
     // update the world state
     var crank = function(tick) {
@@ -130,11 +136,16 @@ var world = function () {
 				
 				//console.log("* " + players[i].pos.x + " - " + players[i].pos.y + " - " + grid[players[i].pos.x, players[i].pos.y]);
 				// collision
-				if (grid[players[i].pos.x][players[i].pos.y]) {
+				//console.log(grid[players[i].pos.x][players[i].pos.y]);
+				if (playerHitBorder(players[i]) || grid[players[i].pos.x][players[i].pos.y]) {
+				    playerDiedCallback(players[i]);
+				    players[i].Speed = 0;
 					console.log("player " + players[i].id + 
 					  " collision at (" + players[i].pos.x + "," + players[i].pos.y + ")");
+				} else {
+    				grid[players[i].pos.x][players[i].pos.y] = players[i].id;				    
 				}
-				grid[players[i].pos.x][players[i].pos.y] = players[i].id;
+
 				
 				//console.log("player " + players[i].id + " - (" + players[i].pos.x + "," + players[i].pos.y + ")");
 			}
@@ -219,7 +230,11 @@ var world = function () {
         var pIndex = getPlayerIndexById(id);
             _.extend(players[pIndex], obj);
             console.log("update player: " + JSON.stringify(players[pIndex]));
-    }
+    };
+    
+    var setPlayerDiedCallback = function (callback) {
+        playerDiedCallback = callback;
+    };
     
     return {
         addPlayer:addPlayer ,
@@ -232,7 +247,8 @@ var world = function () {
         getChatLog: getChatLog,
         addChatMessage: addChatMessage,
         updatePlayerDirById: updatePlayerDirById,
-        updatePlayerById: updatePlayerById
+        updatePlayerById: updatePlayerById,
+        setPlayerDiedCallback: setPlayerDiedCallback
     };
 }();
 

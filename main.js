@@ -23,6 +23,9 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + '/static/simpleClient.html');
 });
 world.setIo(io);
+world.setPlayerDiedCallback(function(player) {
+  io.sockets.emit('playerDied', {id: player.id})
+});
 
 io.sockets.on('connection', function (socket) {
     // Update our list of players Add me

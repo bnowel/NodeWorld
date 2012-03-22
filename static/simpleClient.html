@@ -149,6 +149,9 @@
         }
 
       });
+      socket.on('playerDied', function(data) {
+        console.log("Player " + data.id + " died");
+      });
       socket.on('chat' , function(data){ 
         //console.log(data);
         $("#chat-log").append($('<div/>').text(data.msg).prepend($('<span>').text(data.name + ": ")));
