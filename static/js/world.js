@@ -2,7 +2,7 @@ if (typeof _ === "undefined") {
     var _ = require("./underscore");
 }
 var world = function () {
-	var gridH = 25;
+    var gridH = 25;
 	var gridW = 25;
     var grid = [];
     var players =  [];
