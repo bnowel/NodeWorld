@@ -110,38 +110,35 @@
         playas.push(playa);
       }
 
-      function updateName(newName) {
-        /*
-        var playa = getPlaya(newName.id);
-        if (!playa) {
-          playa = getNewPlaya(newName);
-          $('body').append(playa.icon);
-        } 
-        else {
-          playa.name = newName.name;
-        }
-        playa.icon.text(playa.name);
-        playas.push(playa);
-        */
-      }
 
+      /*
+       * Functions to handle broadcasts
+       */
 
       var socket = io.connect('/');
-
+      
+      // playerJoined
+      socket.on('playerJoined', function(data) {
+        chat_console(data.name + " joined", data.color);
+      });
+      
+      // updateName
+      socket.on('updateName', function(data) {
+        chat_console(data.oldName + " changed name to " + data.name, data.color);
+      });
+      
+      // move
       socket.on('move', function(data) {
         updatePosition(data);
       });
 
-      socket.on('name', function(data) {
-        updateName(data);
+      // chat
+      socket.on('chat' , function(data){ 
+        //console.log(data);
+        $("#chat-log").append($('<div/>').text(data.msg).prepend($('<span>').css("color",data.color).text(data.name + ": ")));
       });
-      socket.on('died', function(data) {
-        //console.log('Player died: ' + data.name +  JSON.stringify(data));
-        killPlaya(data.id); 
-      });
-      socket.on('playerCount', function(data) {
-        console.log("player Count: " + data.players);
-      });
+      
+      // update positions
       socket.on('update', function(data) {
         //console.log(data.playaData[0].pos.x);
         
@@ -152,14 +149,32 @@
         }
 
       });
+      
+      // playerDied
       socket.on('playerDied', function(data) {
         console.log("Player " + data.id + " died");
         chat_console(data.name + " died", data.color);
       });
-      socket.on('chat' , function(data){ 
-        //console.log(data);
-        $("#chat-log").append($('<div/>').text(data.msg).prepend($('<span>').css("color",data.color).text(data.name + ": ")));
+
+      // kill player
+      socket.on('died', function(data) {
+        //console.log('Player died: ' + data.name +  JSON.stringify(data));
+        killPlaya(data.id); 
       });
+      
+      
+      /* 
+       * debug 
+       */
+       
+      // playerCount
+      socket.on('playerCount', function(data) {
+        console.log("player Count: " + data.players);
+      });
+     
+      /*
+       * Helper functions
+       */
       
       function chat_console(console_msg, color) {
        color = color || '#ddd';
@@ -174,6 +189,11 @@
         });        
       }
       
+      
+      /*
+       * View config
+       */
+       
       bindSubmitOnEnter($('#name'), $('#save'));
       
       $("#save").click(function() {
@@ -184,7 +204,7 @@
           $("#name").css('border-color', '#944'); 
         }
         else if (words[0] != "god") {
-        	socket.emit('name', { name: $("#name").val() });
+            socket.emit('name', { name: $("#name").val() });
           $("#joined #joined-name").text($("#name").val());
           $("#join").hide();
           $("#joined").show();
@@ -212,7 +232,12 @@
             socket.emit('chat', {message: messageFromPlayer});
           }
            $("#chat-msg").val("");                   
-        });
+      });
+      
+      
+      /*
+       * Game controls
+       */
       
       // Only triggered once per press.  If we want to know if they are holding it down
       // we should look at keypress.
