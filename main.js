@@ -30,7 +30,7 @@ world.setPlayerDiedCallback(function(player) {
 io.sockets.on('connection', function (socket) {
     // Update our list of players Add me
     
-    var player = {id: socket.id, pos:{x:0, y:0}, dir:{x:0, y:0}, name:"Anon"};
+    var player = {id: socket.id, pos:{x:0, y:0}, dir:{x:0, y:0}, newDir:{x:0, y:0}, name:"Anon"};
     world.addPlayer(player);
     io.sockets.emit('playerJoined', player);
     world.init();
