@@ -107,7 +107,7 @@ var world = function () {
         	dir = getDirObj(dirStr);
 	        //console.log(dir);
 	        
-            _.extend(players[pIndex], {dir:dir});
+            _.extend(players[pIndex], {newDir:dir});
             console.log("update player: " + JSON.stringify(players[pIndex]));
         }
     }
@@ -145,7 +145,7 @@ var world = function () {
             default:
                 break;
         }
-        retObj =  {pos:{x:x,y:y},dir:getDirObj(dir)};
+        retObj =  {pos:{x:x,y:y},newDir:getDirObj(dir)};
         return retObj;
     }
     
@@ -167,6 +167,19 @@ var world = function () {
                 player.pos.y < 0 || player.pos.y >= gridH);
     }
     
+    // determines if player can move in the desired new direction
+    function updatePlayerDirection(player) {
+    	var deltaX = player.dir.x + player.newDir.x;
+    	var deltaY = player.dir.y + player.newDir.y;
+    	
+    	// double back - invalid
+    	if (deltaX == 0 && deltaY == 0) {
+    		player.newDir = player.dir;
+    	} else {
+    		player.dir = player.newDir;
+    	}
+    }
+    
     // update the world state
     var crank = function(tick) {
 		// elapsed ticks
@@ -181,15 +194,19 @@ var world = function () {
 			//console.log("crank - delta: " + dt + " tick: " + tick);
 			// update player positions
 			for (var i = 0; i < players.length; i++) {
-				// spatial float position updates (overkill currently)
-				//players[i].pos.x += players[i].dir.x * dRate;
-				//players[i].pos.y += players[i].dir.y * dRate;
+				
 				if (!players[i] || !players[i].pos || !players[i].dir)
 				    continue;
 
                 if (players[i].status != "playing")
                     continue;
-				    
+				
+				// applies desired direction change if valid
+				updatePlayerDirection(players[i]);
+					
+				// spatial float position updates (overkill currently)
+				//players[i].pos.x += players[i].dir.x * dRate;
+				//players[i].pos.y += players[i].dir.y * dRate;
 				players[i].pos.x += players[i].dir.x;
 				players[i].pos.y += players[i].dir.y;
 				
