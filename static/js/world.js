@@ -46,6 +46,7 @@ var world = function () {
         return {x: Math.round(pos.x), y: Math.round(pos.y)};
     }
     
+    // TODO: Stop this from really dark colors
     function getRandomColor() {
         var letters = '0123456789ABCDEF'.split('');
         var color = '#';
@@ -122,12 +123,12 @@ var world = function () {
     function getInitCoordsAndDir(i){
         var x,y,dir,retObj;
         switch (i) {
-            case 1:
+            case 0:
                 x = 0;
                 y = 0;
                 dir = "e";
                 break;
-            case 0:
+            case 1:
                 x = gridW - 1;
                 y = 0;
                 dir = "s";

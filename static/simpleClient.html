@@ -197,15 +197,16 @@
       bindSubmitOnEnter($('#name'), $('#save'));
       
       $("#save").click(function() {
-        var stuff = $("#name").val();
-        var words = stuff.split(" ");
+        var $name = $('#name'),
+          stuff = $.trim( $name.val() ),
+          words = stuff.split(" ");
+        
         if (stuff === "") {
-          $("#name").css('background-color', '#faa'); 
-          $("#name").css('border-color', '#944'); 
+          $name.css({'background-color': '#faa', 'border-color': '#944'}); 
         }
         else if (words[0] != "god") {
-            socket.emit('name', { name: $("#name").val() });
-          $("#joined #joined-name").text($("#name").val());
+            socket.emit('name', { name: $name.val() });
+          $("#joined #joined-name").text( $name.val() );
           $("#join").hide();
           $("#joined").show();
         }
@@ -215,13 +216,12 @@
       });
 
       $("#name").focus(function() {
-        $("#name").css('background-color', ''); 
-        $("#name").css('border-color', ''); 
+        $(this).css({'background-color': '', 'border-color': ''}); 
       });
       
       $("#edit-name").click(function() {
           $("#joined").hide();
-          $("#join").show();
+          $("#join").show().focus();
       });
       
       bindSubmitOnEnter($('#chat-msg'), $('#send-chat-msg'));
