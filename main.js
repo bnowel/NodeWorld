@@ -29,8 +29,10 @@ world.setPlayerDiedCallback(function(player) {
 
 io.sockets.on('connection', function (socket) {
     // Update our list of players Add me
-
-    world.addPlayer({id: socket.id, pos:{x:0, y:0}, dir:{x:0, y:0}, name:"Anon"});
+    
+    var player = {id: socket.id, pos:{x:0, y:0}, dir:{x:0, y:0}, name:"Anon"};
+    world.addPlayer(player);
+    io.sockets.emit('playerJoined', player);
     world.init();
     
     socket.broadcast.emit('playerCount', {players: world.howManyPlayers()});
@@ -42,11 +44,12 @@ io.sockets.on('connection', function (socket) {
     
     // Initialize player (join game)
     socket.on('name', function(data) {
-        console.log("NAME SENT:")
-        console.log(data.name)
+        console.log(data.name +" name updated");
         data.id = socket.id;
-        socket.broadcast.emit('name', data);
-        world.updatePlayerById(socket.id, {"name":data.name});
+        data.oldName = world.getPlayerNameById(socket.id);
+        data.color = world.getPlayerColorById(socket.id);
+        io.sockets.emit('updateName', data);
+        world.updatePlayerById(socket.id, {"name":data.name, "oldName":data.oldName});
     });
     
     // God commands

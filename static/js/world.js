@@ -110,6 +110,14 @@ var world = function () {
             console.log("update player: " + JSON.stringify(players[pIndex]));
         }
     }
+
+    var getPlayerNameById = function(id) {
+        return players[getPlayerIndexById(id)].name;
+    }
+
+    var getPlayerColorById = function(id) {
+        return players[getPlayerIndexById(id)].color;
+    }
     
     function getInitCoordsAndDir(i){
         var x,y,dir,retObj;
@@ -299,7 +307,9 @@ var world = function () {
         addChatMessage: addChatMessage,
         updatePlayerDirById: updatePlayerDirById,
         updatePlayerById: updatePlayerById,
-        setPlayerDiedCallback: setPlayerDiedCallback
+        setPlayerDiedCallback: setPlayerDiedCallback,
+        getPlayerNameById: getPlayerNameById,
+        getPlayerColorById: getPlayerColorById
     };
 }();
 
