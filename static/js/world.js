@@ -29,6 +29,8 @@ var world = function () {
         
     };
     
+    var resetGameCallback = function() {};
+    
     function getPlayerIndexById(id) {
         for (var i = 0, l = players.length; i < l; i++) {
             if(players[i].id == id)
@@ -153,9 +155,9 @@ var world = function () {
     var initWorld = function() {
     	grid = new Array(gridW)
 
-		for (var i = 0; i < gridW; i++) {
-			grid[i]=new Array(gridH);
-		}
+		  for (var i = 0; i < gridW; i++) {
+			  grid[i]=new Array(gridH);
+		  }
 		
 		// start players off in a direction when game starts
 		//for (var i = 0; i < players.length; i++) {
@@ -277,6 +279,18 @@ var world = function () {
         initWorld();
         startCycle();
     };
+    
+    var resetGame =  function() {
+        clearTimeout(timerId);
+        timerId = 0;
+        for (var i = 0; i<players.length; i++) {
+          _.extend(players[i], getInitCoordsAndDir(i));
+          resetGameCallback(players[i]);
+        }
+        initWorld();
+        startCycle();
+        
+    };
     var startCycle = function() {
     	lastTick = (new Date()).getTime();
     	timerId = setInterval(world.update, cycleSpeedMs);
@@ -313,6 +327,10 @@ var world = function () {
         playerDiedCallback = callback;
     };
     
+    var setResetGameCallback = function (callback) {
+        resetGameCallback = callback;
+    };
+    
     return {
         addPlayer:addPlayer ,
         howManyPlayers:howManyPlayers,
@@ -327,7 +345,9 @@ var world = function () {
         updatePlayerById: updatePlayerById,
         setPlayerDiedCallback: setPlayerDiedCallback,
         getPlayerNameById: getPlayerNameById,
-        getPlayerColorById: getPlayerColorById
+        getPlayerColorById: getPlayerColorById,
+        resetGame: resetGame,
+        setResetGameCallback: setResetGameCallback
     };
 }();
 
