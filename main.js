@@ -72,6 +72,17 @@ io.sockets.on('connection', function (socket) {
         socket.emit('chat', msg);
     });
 
+    socket.on('resetGame', function() {
+        io.sockets.emit('resetGame');
+        world.resetGame();
+        
+    });
+
+    socket.on('rejoinGame', function() {
+        io.sockets.emit('rejoinGame', player);
+    });
+
+
     socket.on('disconnect', function() {
         console.log('player disconnected');
         world.removePlayerById(socket.id);

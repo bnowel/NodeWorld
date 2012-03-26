@@ -16,6 +16,7 @@
     <span id="joined-name"></span>  <a href="#" id="edit-name">edit</a>
   </div>
   </header>
+  <a href="#" id="reset-game">reset game</a>
   <article>
     <section class="world-section">
       <div role="main" class="main">
@@ -162,7 +163,21 @@
         killPlaya(data.id); 
       });
       
-      
+      // reset game
+      socket.on('resetGame', function() {
+        chat_console("game reset recieved", "#575757");
+        
+        //clear board
+        board.clearRect(0, 0, 500, 500);
+        socket.emit("rejoinGame");    
+      });
+    
+    
+      // rejoin game
+      socket.on('rejoinGame', function(data) {
+        chat_console(data.name + " rejoined game", data.color);
+        
+      });
       /* 
        * debug 
        */
@@ -234,6 +249,10 @@
            $("#chat-msg").val("");                   
       });
       
+      $("#reset-game").click(function() {
+        socket.emit('resetGame');
+        chat_console("game reset sent", "#444");
+      });
       
       /*
        * Game controls

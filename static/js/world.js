@@ -152,9 +152,9 @@ var world = function () {
     var initWorld = function() {
     	grid = new Array(gridW)
 
-		for (var i = 0; i < gridW; i++) {
-			grid[i]=new Array(gridH);
-		}
+		  for (var i = 0; i < gridW; i++) {
+			  grid[i]=new Array(gridH);
+		  }
 		
 		// start players off in a direction when game starts
 		//for (var i = 0; i < players.length; i++) {
@@ -259,6 +259,16 @@ var world = function () {
         initWorld();
         startCycle();
     };
+    
+    var resetGame =  function() {
+        clearTimeout(timerId);
+        timerId = 0;
+        for (var i = 0; i<players.length; i++) {
+          _.extend(players[i], getInitCoordsAndDir(i));
+        }
+        initWorld();
+        startCycle();
+    };
     var startCycle = function() {
     	lastTick = (new Date()).getTime();
     	timerId = setInterval(world.update, cycleSpeedMs);
@@ -309,7 +319,8 @@ var world = function () {
         updatePlayerById: updatePlayerById,
         setPlayerDiedCallback: setPlayerDiedCallback,
         getPlayerNameById: getPlayerNameById,
-        getPlayerColorById: getPlayerColorById
+        getPlayerColorById: getPlayerColorById,
+        resetGame: resetGame
     };
 }();
 
