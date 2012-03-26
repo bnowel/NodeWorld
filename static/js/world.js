@@ -29,6 +29,8 @@ var world = function () {
         
     };
     
+    var resetGameCallback = function() {};
+    
     function getPlayerIndexById(id) {
         for (var i = 0, l = players.length; i < l; i++) {
             if(players[i].id == id)
@@ -265,9 +267,11 @@ var world = function () {
         timerId = 0;
         for (var i = 0; i<players.length; i++) {
           _.extend(players[i], getInitCoordsAndDir(i));
+          resetGameCallback(players[i]);
         }
         initWorld();
         startCycle();
+        
     };
     var startCycle = function() {
     	lastTick = (new Date()).getTime();
@@ -305,6 +309,10 @@ var world = function () {
         playerDiedCallback = callback;
     };
     
+    var setResetGameCallback = function (callback) {
+        resetGameCallback = callback;
+    };
+    
     return {
         addPlayer:addPlayer ,
         howManyPlayers:howManyPlayers,
@@ -320,7 +328,8 @@ var world = function () {
         setPlayerDiedCallback: setPlayerDiedCallback,
         getPlayerNameById: getPlayerNameById,
         getPlayerColorById: getPlayerColorById,
-        resetGame: resetGame
+        resetGame: resetGame,
+        setResetGameCallback: setResetGameCallback
     };
 }();
 

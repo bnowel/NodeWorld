@@ -26,6 +26,9 @@ world.setIo(io);
 world.setPlayerDiedCallback(function(player) {
   io.sockets.emit('playerDied', {id: player.id, name: player.name, color: player.color})
 });
+world.setResetGameCallback(function(player) {
+          io.sockets.emit('rejoinGame',player);
+        });
 
 io.sockets.on('connection', function (socket) {
     // Update our list of players Add me
@@ -76,10 +79,6 @@ io.sockets.on('connection', function (socket) {
         io.sockets.emit('resetGame');
         world.resetGame();
         
-    });
-
-    socket.on('rejoinGame', function() {
-        io.sockets.emit('rejoinGame', player);
     });
 
 
