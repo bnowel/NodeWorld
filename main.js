@@ -39,6 +39,8 @@ io.sockets.on('connection', function (socket) {
     world.init();
     
     socket.broadcast.emit('playerCount', {players: world.howManyPlayers()});
+    socket.emit('update', {"playaData": world.getGameState()});
+    
     socket.on('move', function(data) {
         // Update where this player wants to "move"
         data.id = socket.id;

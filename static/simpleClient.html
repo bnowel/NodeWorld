@@ -145,7 +145,7 @@
       // update positions
       socket.on('update', function(data) {
         //console.log(data.playaData[0].pos.x);
-        
+        console.log(data);
         for (var i=0, l=data.playaData.length; i < l; i++) {
           // convert world to screen
           var sp = worldToScreen(data.playaData[i].pos);

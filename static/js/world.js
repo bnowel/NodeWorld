@@ -338,6 +338,23 @@ var world = function () {
         }
     };
     
+    var getGameState = function() {
+        var history = new Array();
+        
+        for (var x = 0; x < gridW; x++) {
+            for (var y = 0; y < gridH; y++) {
+                if (grid[x][y]) {
+                    var p = {};
+                    // check return value
+                    _.extend(p, players[getPlayerById(grid[x][y])], {"pos": {"x": x, "y": y}});
+                    history.push(p);
+                }
+            }
+        }
+        
+        return history;
+    };
+    
     var setPlayerDiedCallback = function (callback) {
         playerDiedCallback = callback;
     };
@@ -362,7 +379,8 @@ var world = function () {
         getPlayerNameById: getPlayerNameById,
         getPlayerColorById: getPlayerColorById,
         resetGame: resetGame,
-        setResetGameCallback: setResetGameCallback
+        setResetGameCallback: setResetGameCallback,
+        getGameState: getGameState
     };
 }();
 
