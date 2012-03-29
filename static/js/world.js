@@ -115,11 +115,23 @@ var world = function () {
     }
 
     var getPlayerNameById = function(id) {
-        return players[getPlayerIndexById(id)].name;
+        var playerIndex = getPlayerIndexById(id);
+        
+        if (playerIndex < 0) {
+            return "";
+        }
+        
+        return players[playerIndex].name;
     }
 
     var getPlayerColorById = function(id) {
-        return players[getPlayerIndexById(id)].color;
+        var playerIndex = getPlayerIndexById(id);
+        
+        if (playerIndex < 0) {
+            return "";
+        }
+        
+        return players[playerIndex].color;
     }
     
     function getInitCoordsAndDir(i){
