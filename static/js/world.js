@@ -346,7 +346,7 @@ var world = function () {
                 if (grid[x][y]) {
                     var p = {};
                     // check return value
-                    _.extend(p, players[getPlayerById(grid[x][y])], {"pos": {"x": x, "y": y}});
+                    _.extend(p, getPlayerById(grid[x][y]), {"pos": {"x": x, "y": y}});
                     history.push(p);
                 }
             }
