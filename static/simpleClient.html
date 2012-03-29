@@ -8,6 +8,7 @@
   <header class="group">
   <h1 id="brand">Node World</h1>
   <div id="join">
+    <div id="colorBlock" style="background-color:transparent;height:25px;width:25px;float:left;margin-right:4px"></div>
     <label for="name">To join enter your name</label>
     <input type="text" id="name" />
     <input type="button" id="save" value="save" />
@@ -121,6 +122,8 @@
       // playerJoined
       socket.on('playerJoined', function(data) {
         chat_console(data.name + " joined", data.color);
+        $('label[for="name"]').css("color", data.color);
+        $('#colorBlock').css("background-color", data.color);
       });
       
       // updateName
