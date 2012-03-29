@@ -138,8 +138,17 @@
 
       // chat
       socket.on('chat' , function(data){ 
-        //console.log(data);
+        $chatLog = $("#chat-log");
+
+        //Check if we are at the bottom of the chat log
+        var atBottom = $chatLog[0].scrollHeight - $chatLog.scrollTop() <= $chatLog.outerHeight(); 
+       
         $("#chat-log").append($('<div/>').text(data.msg).prepend($('<span>').css("color",data.color).text(data.name + ": ")));
+
+        if(atBottom) {  //if we were at the bottom of the chat log
+          //scroll chat log to new bottom
+          $chatLog.scrollTop($chatLog[0].scrollHeight); 
+        }
       });
       
       // update positions
