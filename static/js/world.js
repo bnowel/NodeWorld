@@ -284,7 +284,7 @@ var world = function () {
         clearTimeout(timerId);
         timerId = 0;
         for (var i = 0; i<players.length; i++) {
-          _.extend(players[i], getInitCoordsAndDir(i));
+          _.extend(players[i], getInitCoordsAndDir(i), {"status": "playing"});
           resetGameCallback(players[i]);
         }
         initWorld();
