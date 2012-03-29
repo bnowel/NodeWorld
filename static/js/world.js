@@ -342,8 +342,11 @@ var world = function () {
     
     var updatePlayerById = function(id, obj) {
         var pIndex = getPlayerIndexById(id);
+        if (pIndex >= 0)
+        {
             _.extend(players[pIndex], obj);
             console.log("update player: " + JSON.stringify(players[pIndex]));
+        }
     };
     
     var setPlayerDiedCallback = function (callback) {
