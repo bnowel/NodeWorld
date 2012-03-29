@@ -316,8 +316,9 @@ var world = function () {
     	startCycle();
     }
     var addChatMessage = function(msgText, playerId) {
-        var player = getPlayerById(playerId),
-            message = {msg: msgText, name: player.name || "Anon", color: player.color};
+        var player = getPlayerById(playerId);
+        var name = player ? player.name : "Anon";
+        var message = {msg: msgText, name: player.name || "Anon", color: player.color};
         
         console.log(player);
         chatLog.push(message);
