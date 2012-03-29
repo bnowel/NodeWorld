@@ -26,7 +26,6 @@ var world = function () {
     
     var playerDiedCallback = function() { 
         console.log("Player died");
-        
     };
     
     var resetGameCallback = function() {};
@@ -64,6 +63,18 @@ var world = function () {
                 var playaObj = {};
                 _.extend(playaObj, p, {pos:roundedPos(p.pos)});
                 playas.push(playaObj);
+        }
+        return playas;
+    }
+    
+    // get list of players who are playing or dead
+    function getInGamePlayers() {
+        var playas = [];
+        
+        for (var p in players) {
+            if (players[p].status == "playing" || players[p].status == "dead") {
+                playas.push(players[p]);   
+            }
         }
         return playas;
     }
@@ -113,25 +124,23 @@ var world = function () {
             console.log("update player: " + JSON.stringify(players[pIndex]));
         }
     }
+    
+    var getPlayerPropertyById = function (id, prop){
+        var playerIndex = getPlayerIndexById(id);
+        
+        if (playerIndex < 0) {
+            return "";
+        }
+        
+        return players[playerIndex][prop];
+    };
 
     var getPlayerNameById = function(id) {
-        var playerIndex = getPlayerIndexById(id);
-        
-        if (playerIndex < 0) {
-            return "";
-        }
-        
-        return players[playerIndex].name;
-    }
+        return getPlayerPropertyById(id, "name");
+    };
 
     var getPlayerColorById = function(id) {
-        var playerIndex = getPlayerIndexById(id);
-        
-        if (playerIndex < 0) {
-            return "";
-        }
-        
-        return players[playerIndex].color;
+        return getPlayerPropertyById(id, "color");
     }
     
     function getInitCoordsAndDir(i){
@@ -223,7 +232,7 @@ var world = function () {
 				//players[i].pos.y += players[i].dir.y * dRate;
 				players[i].pos.x += players[i].dir.x;
 				players[i].pos.y += players[i].dir.y;
-				
+
 				//console.log("* " + players[i].pos.x + " - " + players[i].pos.y + " - " + grid[players[i].pos.x, players[i].pos.y]);
 				// collision
 				//console.log(grid[players[i].pos.x][players[i].pos.y]);
