@@ -15,11 +15,9 @@ var world = function () {
     // last tick value
     var lastTick;
     // the update interval in ms
-    var cycleSpeedMs = 1000;
+    var cycleSpeedMs = 500;
     // the players speed in units per second
     var playerSpeed = 1;
-    // the players move at units (direction) per second (rate).
-    var playerRate = 1000;
     // the current tick spinner (a 1 second tick spinner) - used to figure out when a second is up
     var tickSpinner = 0;
     var chatLog = [];
@@ -209,11 +207,12 @@ var world = function () {
 		var dt = tick - lastTick;
 		tickSpinner += dt;
 		
+        console.log("Spinner " + tickSpinner + " " + new Date());
 		// elapsed per second clock rate (how much time in seconds has elapsed since last cycle)
 		//var dRate = (dt / playerRate);
 		
 		// update player positions if a second has elapsed
-		if (tickSpinner > 1000) {
+		if (tickSpinner >= 250) {
 			//console.log("crank - delta: " + dt + " tick: " + tick);
 			// update player positions
 			for (var i = 0; i < players.length; i++) {
@@ -250,7 +249,7 @@ var world = function () {
 				//console.log("player " + players[i].id + " - (" + players[i].pos.x + "," + players[i].pos.y + ")");
 			}
 			
-			tickSpinner %= 1000; // spin around
+			tickSpinner %= cycleSpeedMs; // spin around
 		}
     };
     
