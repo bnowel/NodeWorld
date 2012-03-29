@@ -82,6 +82,14 @@ header #joined #joined-name {
 header #joined a, a:visited {
   color: #77a;
 }
+
+.js-colorBlock{
+    background-color:transparent;
+    height:25px;
+    width:25px;
+    float:left;
+    margin-right:4px;
+}
 /* ----------------------------------------
    .world-section
    ---------------------------------------*/
