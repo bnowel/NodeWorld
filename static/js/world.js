@@ -113,25 +113,23 @@ var world = function () {
             console.log("update player: " + JSON.stringify(players[pIndex]));
         }
     }
+    
+    var getPlayerPropertyById = function (id, prop){
+        var playerIndex = getPlayerIndexById(id);
+        
+        if (playerIndex < 0) {
+            return "";
+        }
+        
+        return players[playerIndex][prop];
+    };
 
     var getPlayerNameById = function(id) {
-        var playerIndex = getPlayerIndexById(id);
-        
-        if (playerIndex < 0) {
-            return "";
-        }
-        
-        return players[playerIndex].name;
-    }
+        return getPlayerPropertyById(id, "name");
+    };
 
     var getPlayerColorById = function(id) {
-        var playerIndex = getPlayerIndexById(id);
-        
-        if (playerIndex < 0) {
-            return "";
-        }
-        
-        return players[playerIndex].color;
+        return getPlayerPropertyById(id, "color");
     }
     
     function getInitCoordsAndDir(i){
