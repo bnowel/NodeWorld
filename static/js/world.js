@@ -88,7 +88,7 @@ var world = function () {
         if (getPlayerIndexById(player.id) === -1 && players.length < maxPlayers){
     	    players.push(player);
             setInitPosition(getPlayerIndexById(player.id));
-            console.log(players);
+            //console.log(players);
         }
     };
     
