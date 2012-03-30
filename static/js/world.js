@@ -58,6 +58,9 @@ var world = function () {
     function getPlayerData() {
         var playas = [];
         for (var i = 0, p; p = players[i++];) {
+                if (p.status != "playing") {
+                    continue;
+                }
                 var playaObj = {};
                 _.extend(playaObj, p, {pos:roundedPos(p.pos)});
                 playas.push(playaObj);
@@ -207,7 +210,7 @@ var world = function () {
 		var dt = tick - lastTick;
 		tickSpinner += dt;
 		
-        console.log("Spinner " + tickSpinner + " " + new Date());
+        //console.log("Spinner " + tickSpinner + " " + new Date());
 		// elapsed per second clock rate (how much time in seconds has elapsed since last cycle)
 		//var dRate = (dt / playerRate);
 		
@@ -285,7 +288,11 @@ var world = function () {
         
         // broadcast world state
         if (io) {
-            io.sockets.volatile.emit('update', {"tick": tick, "playaData":getPlayerData()});
+            playaData = getPlayerData();
+            if (playaData.length) {
+                io.sockets.volatile.emit('update', {"tick": tick, "playaData": playaData});                
+            }
+
         }
         
         lastTick = tick;
