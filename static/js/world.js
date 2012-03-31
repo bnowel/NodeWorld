@@ -1,6 +1,9 @@
 if (typeof _ === "undefined") {
     var _ = require("./underscore");
 }
+
+var helper = require("./helper");
+
 var world = function () {
     var gridH = 25;
 	var gridW = 25;
@@ -29,12 +32,14 @@ var world = function () {
     var resetGameCallback = function() {};
     
     function getPlayerIndexById(id) {
-        for (var i = 0, l = players.length; i < l; i++) {
-            if(players[i].id == id)
-                return i;
-        }
+        return helper.getArrayElementIndexByPrpertyValue(players, "id", id);
         
-        return -1;
+//        for (var i = 0, l = players.length; i < l; i++) {
+//            if(players[i].id == id)
+//                return i;
+//        }
+//        
+//        return -1;
     }
     
     function getPlayerById(id) {
@@ -85,7 +90,7 @@ var world = function () {
     	//console.log("add player: " + JSON.stringify(player));
         player.color = getRandomColor();
         player.status = "playing";
-        if (getPlayerIndexById(player.id) === -1 && players.length < maxPlayers){
+        if (player.hasOwnProperty("id") && getPlayerIndexById(player.id) === -1 && players.length < maxPlayers){
     	    players.push(player);
             setInitPosition(getPlayerIndexById(player.id));
             //console.log(players);
