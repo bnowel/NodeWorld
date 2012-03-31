@@ -34,7 +34,7 @@ suite('World', function() {
         assert.equal(world.howManyPlayers(), 0);
     });
     test('World adding players', function() {
-       world.addPlayer({}); 
+       world.addPlayer({id:"fakelongIDvalue1234"}); 
        assert.equal(world.howManyPlayers(), 1);
     });
     test('not atomic tests', function() {
