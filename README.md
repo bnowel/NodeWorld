@@ -77,7 +77,7 @@ Pick a feature from the issues page https://github.com/bnowel/NodeWorld/issues o
     $ git fetch upstream
     $ git merge upstream/master
 
-#### Create a new branch to do develop your feature in
+#### Create a new branch to develop your feature on
 
     $ git checkout -b fooBarFeature
 
@@ -113,7 +113,7 @@ Once your feature is tested and working merge any new upstream changes in and re
 
 #### Perform a pull request
 
-visit github, navigate to your fooBarFeature branch and click on Pull
+visit github, navigate to your fooBarFeature branch and click on "Pull Request"
 
 Bug Tracker
 -----------
