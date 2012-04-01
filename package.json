@@ -1,8 +1,17 @@
 {
   "name": "NodeWorld",
   "version": "0.0.1",
-  "dependencies":{
-      "socket.io": "0.8.7",
-      "express": "2.5.8"
-  }
+  "repository" :
+    { "type" : "git"
+    , "url" : "http://github.com/bnowel/NodeWorld.git"
+    },
+  "dependencies" :
+    { "socket.io" : "0.8.7"
+    , "express" : "2.5.8"
+    },
+  "devDependencies":
+    {
+      "mocha" : "1.0.0",
+      "asyncjs" : "0.0.6"
+    }
 }

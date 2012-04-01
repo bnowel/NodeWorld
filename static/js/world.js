@@ -1,6 +1,9 @@
 if (typeof _ === "undefined") {
     var _ = require("./underscore");
 }
+
+var helper = require("./helper");
+
 var world = function () {
     var gridH = 25;
 	var gridW = 25;
@@ -15,11 +18,9 @@ var world = function () {
     // last tick value
     var lastTick;
     // the update interval in ms
-    var cycleSpeedMs = 1000;
+    var cycleSpeedMs = 500;
     // the players speed in units per second
     var playerSpeed = 1;
-    // the players move at units (direction) per second (rate).
-    var playerRate = 1000;
     // the current tick spinner (a 1 second tick spinner) - used to figure out when a second is up
     var tickSpinner = 0;
     var chatLog = [];
@@ -31,12 +32,14 @@ var world = function () {
     var resetGameCallback = function() {};
     
     function getPlayerIndexById(id) {
-        for (var i = 0, l = players.length; i < l; i++) {
-            if(players[i].id == id)
-                return i;
-        }
+        return helper.getArrayElementIndexByPrpertyValue(players, "id", id);
         
-        return -1;
+//        for (var i = 0, l = players.length; i < l; i++) {
+//            if(players[i].id == id)
+//                return i;
+//        }
+//        
+//        return -1;
     }
     
     function getPlayerById(id) {
@@ -60,6 +63,9 @@ var world = function () {
     function getPlayerData() {
         var playas = [];
         for (var i = 0, p; p = players[i++];) {
+                if (p.status != "playing") {
+                    continue;
+                }
                 var playaObj = {};
                 _.extend(playaObj, p, {pos:roundedPos(p.pos)});
                 playas.push(playaObj);
@@ -81,13 +87,13 @@ var world = function () {
     
     // add a player to the world
     var addPlayer = function(player) {
-    	console.log("add player: " + JSON.stringify(player));
+    	//console.log("add player: " + JSON.stringify(player));
         player.color = getRandomColor();
         player.status = "playing";
-        if (getPlayerIndexById(player.id)===-1 && players.length < maxPlayers){
+        if (player.hasOwnProperty("id") && getPlayerIndexById(player.id) === -1 && players.length < maxPlayers){
     	    players.push(player);
             setInitPosition(getPlayerIndexById(player.id));
-            console.log(players);
+            //console.log(players);
         }
     };
     
@@ -209,11 +215,12 @@ var world = function () {
 		var dt = tick - lastTick;
 		tickSpinner += dt;
 		
+        //console.log("Spinner " + tickSpinner + " " + new Date());
 		// elapsed per second clock rate (how much time in seconds has elapsed since last cycle)
 		//var dRate = (dt / playerRate);
 		
 		// update player positions if a second has elapsed
-		if (tickSpinner > 1000) {
+		if (tickSpinner >= 250) {
 			//console.log("crank - delta: " + dt + " tick: " + tick);
 			// update player positions
 			for (var i = 0; i < players.length; i++) {
@@ -250,7 +257,7 @@ var world = function () {
 				//console.log("player " + players[i].id + " - (" + players[i].pos.x + "," + players[i].pos.y + ")");
 			}
 			
-			tickSpinner %= 1000; // spin around
+			tickSpinner %= cycleSpeedMs; // spin around
 		}
     };
     
@@ -286,7 +293,11 @@ var world = function () {
         
         // broadcast world state
         if (io) {
-            io.sockets.volatile.emit('update', {"tick": tick, "playaData":getPlayerData()});
+            playaData = getPlayerData();
+            if (playaData.length) {
+                io.sockets.volatile.emit('update', {"tick": tick, "playaData": playaData});                
+            }
+
         }
         
         lastTick = tick;
@@ -325,8 +336,9 @@ var world = function () {
     	startCycle();
     }
     var addChatMessage = function(msgText, playerId) {
-        var player = getPlayerById(playerId),
-            message = {msg: msgText, name: player.name || "Anon", color: player.color};
+        var player = getPlayerById(playerId);
+        var name = player ? player.name : "Anon";
+        var message = {msg: msgText, name: name || "Anon", color: player.color};
         
         console.log(player);
         chatLog.push(message);
@@ -345,6 +357,23 @@ var world = function () {
             _.extend(players[pIndex], obj);
             console.log("update player: " + JSON.stringify(players[pIndex]));
         }
+    };
+    
+    var getGameState = function() {
+        var history = new Array();
+        
+        for (var x = 0; x < gridW; x++) {
+            for (var y = 0; y < gridH; y++) {
+                if (grid[x][y]) {
+                    var p = {};
+                    // check return value
+                    _.extend(p, getPlayerById(grid[x][y]), {"pos": {"x": x, "y": y}});
+                    history.push(p);
+                }
+            }
+        }
+        
+        return history;
     };
     
     var setPlayerDiedCallback = function (callback) {
@@ -371,7 +400,8 @@ var world = function () {
         getPlayerNameById: getPlayerNameById,
         getPlayerColorById: getPlayerColorById,
         resetGame: resetGame,
-        setResetGameCallback: setResetGameCallback
+        setResetGameCallback: setResetGameCallback,
+        getGameState: getGameState
     };
 }();
 
