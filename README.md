@@ -58,13 +58,21 @@ Setting up Testing (Mocha) on your local
 ------------------------------
 mocha - simple, flexible, fun javascript test framework for node.js & the browser. (BDD, TDD, QUnit styles via interfaces) — Read more at http://visionmedia.github.com/mocha
 
-Install with npm:
+Install mocha for this project only:
+    
+    $ npm install --dev
+
+Install mocha globally with npm:
 
     $ npm install -g mocha
 
 To start using mocha
 
     $ mocha -w
+
+Running tests:
+
+    $ make test
 
 Developing a new feature
 ------------------------
