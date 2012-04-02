@@ -138,7 +138,6 @@ Authors
 
 **Bernie Nowel**
 
-+ http://twitter.com/bnowel
 + http://github.com/bnowel
 
 **Blake Davis**
