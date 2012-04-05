@@ -176,7 +176,7 @@ var world = function () {
             default:
                 break;
         }
-        retObj =  {pos:{x:x,y:y},newDir:getDirObj(dir)};
+        retObj =  {pos:{x:x,y:y},newDir:getDirObj(dir),dir:getDirObj(dir)};
         return retObj;
     }
     
