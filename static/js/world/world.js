@@ -1,8 +1,10 @@
-if (typeof _ === "undefined") {
-    var _ = require("./underscore");
+if (typeof _ === "undefined") { 
+    var _ = require("../utils/underscore");
 }
 
-var helper = require("./helper");
+var helper = require("../helper/helper");
+
+//var player = require("./player");
 
 var world = function () {
     var gridH = 25;
@@ -32,7 +34,7 @@ var world = function () {
     var resetGameCallback = function() {};
     
     function getPlayerIndexById(id) {
-        return helper.getArrayElementIndexByPrpertyValue(players, "id", id);
+        return helper.getFirstArrayElementIndexByPrpertyValue(players, "id", id);
         
 //        for (var i = 0, l = players.length; i < l; i++) {
 //            if(players[i].id == id)

@@ -1,8 +1,8 @@
 var express = require('express'), 
     app = express.createServer(),
     io = require('socket.io').listen(app),
-    _ = require("./static/js/underscore"),
-    world = require("./static/js/world");
+    _ = require("./static/js/utils/underscore"),
+    world = require("./static/js/world/world");
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {
