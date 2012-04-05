@@ -53,7 +53,7 @@ var world = function () {
     }
     
     // TODO: Stop this from really dark colors
-    function getRandomColor(step, numOfSteps) {
+    function getRandomColor() {
         var letters = '0123456789ABCDEF'.split('');
         var color = '#';
         for (var i = 0; i < 6; i++ ) {
@@ -151,8 +151,8 @@ var world = function () {
         return getPlayerPropertyById(id, "color");
     }
     
-    var getInitCoordsAndDir = function(i){
-        var x,y,dir,dirObj,retObj;
+    function getInitCoordsAndDir(i){
+        var x,y,dir,retObj;
         switch (i) {
             case 0:
                 x = 0;
@@ -176,8 +176,7 @@ var world = function () {
             default:
                 break;
         }
-        dirObj = getDirObj(dir);
-        retObj =  {pos:{x:x,y:y},newDir:dirObj,dir:dirObj};
+        retObj =  {pos:{x:x,y:y},newDir:getDirObj(dir)};
         return retObj;
     }
     
@@ -402,7 +401,6 @@ var world = function () {
         setPlayerDiedCallback: setPlayerDiedCallback,
         getPlayerNameById: getPlayerNameById,
         getPlayerColorById: getPlayerColorById,
-        getInitCoordsAndDir: getInitCoordsAndDir,
         resetGame: resetGame,
         setResetGameCallback: setResetGameCallback,
         getGameState: getGameState
