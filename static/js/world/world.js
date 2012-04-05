@@ -151,8 +151,8 @@ var world = function () {
         return getPlayerPropertyById(id, "color");
     }
     
-    function getInitCoordsAndDir(i){
-        var x,y,dir,retObj;
+    var getInitCoordsAndDir = function(i){
+        var x,y,dir,dirObj,retObj;
         switch (i) {
             case 0:
                 x = 0;
@@ -176,7 +176,8 @@ var world = function () {
             default:
                 break;
         }
-        retObj =  {pos:{x:x,y:y},newDir:getDirObj(dir),dir:getDirObj(dir)};
+        dirObj = getDirObj(dir);
+        retObj =  {pos:{x:x,y:y},newDir:dirObj,dir:dirObj};
         return retObj;
     }
     
@@ -401,6 +402,7 @@ var world = function () {
         setPlayerDiedCallback: setPlayerDiedCallback,
         getPlayerNameById: getPlayerNameById,
         getPlayerColorById: getPlayerColorById,
+        getInitCoordsAndDir: getInitCoordsAndDir,
         resetGame: resetGame,
         setResetGameCallback: setResetGameCallback,
         getGameState: getGameState
