@@ -1,7 +1,7 @@
 var helper = {
-    getFirstArrayElementIndexByPrpertyValue : function(arrIn, prop, val){
+    getFirstArrayElementIndexByPropertyValue : function(arrIn, prop, val){
         var i = -1,
-            indexes = this.getIndexesByPrpertyValue(arrIn, prop, val);
+            indexes = this.getIndexesByPropertyValue(arrIn, prop, val);
             
         if (indexes.length > 0) {
             i = indexes[0];    
@@ -9,7 +9,7 @@ var helper = {
         
         return i;
     },
-    getIndexesByPrpertyValue :  function(arrIn, prop, val){
+    getIndexesByPropertyValue :  function(arrIn, prop, val){
         var len = arrIn.length,
             indexes = [];
         if (len!=0){
