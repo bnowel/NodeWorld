@@ -34,7 +34,7 @@ var world = function () {
     var resetGameCallback = function() {};
     
     function getPlayerIndexById(id) {
-        return helper.getFirstArrayElementIndexByPrpertyValue(players, "id", id);
+        return helper.getFirstArrayElementIndexByPropertyValue(players, "id", id);
         
 //        for (var i = 0, l = players.length; i < l; i++) {
 //            if(players[i].id == id)
@@ -151,8 +151,8 @@ var world = function () {
         return getPlayerPropertyById(id, "color");
     }
     
-    var getInitCoordsAndDir = function(i){
-        var x,y,dir,dirObj,retObj;
+    function getInitCoordsAndDir(i){
+        var x,y,dir,retObj;
         switch (i) {
             case 0:
                 x = 0;
@@ -176,8 +176,7 @@ var world = function () {
             default:
                 break;
         }
-        dirObj = getDirObj(dir);
-        retObj =  {pos:{x:x,y:y},newDir:dirObj,dir:dirObj};
+        retObj =  {pos:{x:x,y:y},newDir:getDirObj(dir)};
         return retObj;
     }
     
@@ -402,7 +401,6 @@ var world = function () {
         setPlayerDiedCallback: setPlayerDiedCallback,
         getPlayerNameById: getPlayerNameById,
         getPlayerColorById: getPlayerColorById,
-        getInitCoordsAndDir: getInitCoordsAndDir,
         resetGame: resetGame,
         setResetGameCallback: setResetGameCallback,
         getGameState: getGameState

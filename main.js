@@ -49,17 +49,20 @@ io.sockets.on('connection', function (socket) {
     
     // Initialize player (join game)
     socket.on('name', function(data) {
-        console.log(data.name +" name updated");
         data.id = socket.id;
         data.oldName = world.getPlayerNameById(socket.id);
-        data.color = world.getPlayerColorById(socket.id);
-        io.sockets.emit('updateName', data);
-        world.updatePlayerById(socket.id, {"name":data.name, "oldName":data.oldName});
+        
+        // Only update player name if it has changed
+        if (data.name !== data.oldName) {
+            data.color = world.getPlayerColorById(socket.id);
+            io.sockets.emit('updateName', data);
+            world.updatePlayerById(socket.id, {"name":data.name, "oldName":data.oldName});
+        }
     });
     
     // God commands
     socket.on('god', function(data){
-    	world.godSays(data);
+        world.godSays(data);
     });
     
     socket.on('dir', function(data) {
