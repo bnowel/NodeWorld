@@ -34,7 +34,7 @@ var world = function () {
     var resetGameCallback = function() {};
     
     function getPlayerIndexById(id) {
-        return helper.getFirstArrayElementIndexByPrpertyValue(players, "id", id);
+        return helper.getFirstArrayElementIndexByPropertyValue(players, "id", id);
         
 //        for (var i = 0, l = players.length; i < l; i++) {
 //            if(players[i].id == id)
@@ -53,7 +53,7 @@ var world = function () {
     }
     
     // TODO: Stop this from really dark colors
-    function getRandomColor() {
+    function getRandomColor(step, numOfSteps) {
         var letters = '0123456789ABCDEF'.split('');
         var color = '#';
         for (var i = 0; i < 6; i++ ) {
