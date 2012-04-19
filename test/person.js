@@ -36,4 +36,24 @@ var assert = require('assert'),
         assert.throws( function() { person.setColor("#AABBC") }, "Bad Color", "Bad Color");
         assert.doesNotThrow( function() { person.setColor("#FFF") }, "Bad Color", "Bad Color");        
      });
+     
+     test('Update scores', function() {
+         var person = new Person( );
+         
+         assert.equal(person.getScore(), 0, "No score when you start.");
+         person.incrementScore();
+         assert.equal(person.getScore(), 1, "Increment with no parameters is a +1");
+         
+         person = new Person( );
+         person.incrementScore(5);
+         assert.equal(person.getScore(), 5, "Increment positive");
+
+         person = new Person( );         
+         person.incrementScore(-5);
+         assert.equal(person.getScore(), -5, "Increment negative");
+         
+         person = new Person( );
+         assert.throws( function() { person.incrementScore("BAM") }, "Bad Score", "Bad Score");
+         
+     });
  });

@@ -6,8 +6,6 @@ function Person(details) {
     if (!(this instanceof Person)) {
     	return new Person(details);
     }
-    
-    var score;
 
     var id;
     this.getId = function () {
@@ -48,6 +46,24 @@ function Person(details) {
         }
     }
     // End Color
+    
+    var score = 0;
+    this.getScore = function() {
+        return score;
+    }
+    
+    this.incrementScore = function(inc) {
+        
+        if (typeof inc === "number") {
+            score += inc;            
+        } else if (typeof inc === "undefined") {
+            score++;
+        } else {
+            throw new Exception("Bad Score");
+        }
+
+    }
+    // End Score
     
     
     // Check to see if we got this passed
