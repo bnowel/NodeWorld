@@ -77,7 +77,7 @@ To start using mocha
 
 Running tests:
 
-    $ make test
+    $ npm test
 
 Developing a new feature
 ------------------------
@@ -98,12 +98,12 @@ Pick a feature from the issues page https://github.com/bnowel/NodeWorld/issues o
 
 Create the auto running test for cloud9
 
-    $ vim static/js/fooBar_test.js
+    $ vim static/js/fooBar/fooBar_test.js
     
 This file should only contain two lines
     
-    $require('../../../test/c9test');
-    $require('../../../test/test.fooBar');
+    require('../../../test/c9test');
+    require('../../../test/test.fooBar');
     
 Create the actual test file
     
@@ -111,18 +111,18 @@ Create the actual test file
     
 An example of of a test suite
     
-    $var assert = require('assert'),
-    $Person = require('./../static/js/person/person');
+    var assert = require('assert'),
+    fooBar = require('./../static/js/fooBar/fooBar');
   
-    $ suite('Person', function() {
-    $     test('Person Instantiation', function() {
-    $         var person = Person();
-    $         assert.ok(person instanceof Person, "Make new object even if not called with new.");
-    $         
-    $         var person2 = new Person();
-    $         assert.ok(person2 instanceof Person, "Make new object like we're supposed to.");
-    $     });
-    $ });
+    suite('fooBar', function() {
+        test('fooBar Instantiation', function() {
+            var fooBar = fooBar();
+            assert.ok(fooBar instanceof fooBar, "Make new object even if not called with new.");
+            
+            var fooBar2 = new fooBar();
+            assert.ok(fooBar2 instanceof fooBar, "Make new object like we're supposed to.");
+        });
+    });
 
 #### Commit your changes to your branch regularly
 
@@ -130,7 +130,7 @@ An example of of a test suite
 
 #### Develop your feature and get your tests passing
 
-    $ vim static/js/fooBar.js
+    $ vim static/js/fooBar/fooBar.js
 
 #### Remember to commit your changes to your branch regularly
 
