@@ -23,4 +23,17 @@ var assert = require('assert'),
         
         assert.throws( function() { person.setName("") }, "Name cannot be blank", "Name cannot be blank"); 
      });
+     
+     test('Instantiate with color', function() {
+         var person = new Person( {color: "#AABBCC"} );
+         assert.equal(person.getColor(), "#AABBCC", "Color set correctly");
+         
+         assert.throws( function() { person.setColor("WhateverIwant") }, "Bad Color", "Bad Color");
+         assert.throws( function() { person.setColor(" ") }, "Bad Color", "Bad Color");
+         assert.throws( function() { person.setColor("") }, "Bad Color", "Bad Color");
+         
+        assert.throws( function() { person.setColor("AABB") }, "Bad Color", "Bad Color");
+        assert.throws( function() { person.setColor("#AABBC") }, "Bad Color", "Bad Color");
+        assert.doesNotThrow( function() { person.setColor("#FFF") }, "Bad Color", "Bad Color");        
+     });
  });

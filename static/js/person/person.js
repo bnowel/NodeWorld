@@ -7,8 +7,7 @@ function Person(details) {
     	return new Person(details);
     }
     
-    var color, score;
-    
+    var score;
 
     var id;
     this.getId = function () {
@@ -36,11 +35,26 @@ function Person(details) {
     }
     // End Name
     
+    var color = "#FFFFFF";
+    this.getColor = function () {
+        return color;    
+    }
+    
+    this.setColor = function(val) {
+        if (typeof val !== "undefined" && /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(val) ) {
+            color = val;
+        } else if (typeof val !== "undefined") {
+            throw new Exception("Bad Color");
+        }
+    }
+    // End Color
+    
     
     // Check to see if we got this passed
     if (details) {
-        this.setId(details["id"]);
-        this.setName(details["name"]);
+        this.setId( details["id"] );
+        this.setName( details["name"] );
+        this.setColor( details["color"] );
     }
 }
 
