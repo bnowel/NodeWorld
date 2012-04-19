@@ -2,3 +2,9 @@ language: node_js
 node_js:
   - 0.4
   - 0.6
+# whitelist
+branches:
+  only:
+    - master
+    - dev
+    - testing
