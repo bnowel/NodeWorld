@@ -96,7 +96,33 @@ Pick a feature from the issues page https://github.com/bnowel/NodeWorld/issues o
 
 #### Write unit tests for your new feature
 
+Create the auto running test for cloud9
+
     $ vim static/js/fooBar_test.js
+    
+This file should only contain two lines
+    
+    $require('../../../test/c9test');
+    $require('../../../test/test.fooBar');
+    
+Create the actual test file
+    
+    $ vim static/js/fooBar_test.js
+    
+An example of of a test suite
+    
+    $var assert = require('assert'),
+    $Person = require('./../static/js/person/person');
+  
+    $ suite('Person', function() {
+    $     test('Person Instantiation', function() {
+    $         var person = Person();
+    $         assert.ok(person instanceof Person, "Make new object even if not called with new.");
+    $         
+    $         var person2 = new Person();
+    $         assert.ok(person2 instanceof Person, "Make new object like we're supposed to.");
+    $     });
+    $ });
 
 #### Commit your changes to your branch regularly
 
