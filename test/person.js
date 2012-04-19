@@ -54,6 +54,13 @@ var assert = require('assert'),
          
          person = new Person( );
          assert.throws( function() { person.incrementScore("BAM") }, "Bad Score", "Bad Score");
-         
+     });
+     
+     test('Instantiate person with lots of details', function() {
+         var person = new Person( {id: "1", name: "Joe", color: "#FAFAFA"});
+         assert.equal(person.getId(), "1", "Id");
+         assert.equal(person.getName(), "Joe", "Name");
+         assert.equal(person.getColor(), "#FAFAFA", "Color");
+         assert.equal(person.getScore(), 0, "Score");
      });
  });
