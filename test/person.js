@@ -32,9 +32,10 @@ var assert = require('assert'),
          assert.throws( function() { person.setColor(" ") }, "Bad Color", "Bad Color");
          assert.throws( function() { person.setColor("") }, "Bad Color", "Bad Color");
          
-        assert.throws( function() { person.setColor("AABB") }, "Bad Color", "Bad Color");
-        assert.throws( function() { person.setColor("#AABBC") }, "Bad Color", "Bad Color");
-        assert.doesNotThrow( function() { person.setColor("#FFF") }, "Bad Color", "Bad Color");        
+        assert.throws( function() { person.setColor("AABBCC") }, "Bad Color", "No hash tag");
+        assert.throws( function() { person.setColor("#AABBC") }, "Bad Color", "Color too short 5");
+        assert.throws( function() { person.setColor("#AABBCCE") }, "Bad Color", "Color too long 7");
+        assert.doesNotThrow( function() { person.setColor("#FFF") }, "Bad Color", "Good 3 digit color");        
      });
      
      test('Update scores', function() {
