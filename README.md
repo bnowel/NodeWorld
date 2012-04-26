@@ -77,7 +77,7 @@ To start using mocha
 
 Running tests:
 
-    $ make test
+    $ npm test
 
 Developing a new feature
 ------------------------
@@ -96,7 +96,33 @@ Pick a feature from the issues page https://github.com/bnowel/NodeWorld/issues o
 
 #### Write unit tests for your new feature
 
+Create the auto running test for cloud9
+
+    $ vim static/js/fooBar/fooBar_test.js
+    
+This file should only contain two lines
+    
+    require('../../../test/c9test');
+    require('../../../test/test.fooBar');
+    
+Create the actual test file
+    
     $ vim static/js/fooBar_test.js
+    
+An example of of a test suite
+    
+    var assert = require('assert'),
+    fooBar = require('./../static/js/fooBar/fooBar');
+  
+    suite('fooBar', function() {
+        test('fooBar Instantiation', function() {
+            var fooBar = fooBar();
+            assert.ok(fooBar instanceof fooBar, "Make new object even if not called with new.");
+            
+            var fooBar2 = new fooBar();
+            assert.ok(fooBar2 instanceof fooBar, "Make new object like we're supposed to.");
+        });
+    });
 
 #### Commit your changes to your branch regularly
 
@@ -104,7 +130,7 @@ Pick a feature from the issues page https://github.com/bnowel/NodeWorld/issues o
 
 #### Develop your feature and get your tests passing
 
-    $ vim static/js/fooBar.js
+    $ vim static/js/fooBar/fooBar.js
 
 #### Remember to commit your changes to your branch regularly
 
