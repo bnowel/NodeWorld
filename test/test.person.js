@@ -64,4 +64,11 @@ var assert = require('assert'),
          assert.equal(person.getColor(), "#FAFAFA", "Color");
          assert.equal(person.getScore(), 0, "Score");
      });
+     
+     test('Flattens a person', function() {
+        var person = new Person( {id: "1", name: "Joe", color: "#FAFAFA"});
+        var flatPerson = person.flattify();
+        assert.deepEqual(flatPerson, {id: "1", name: "Joe", color: "#FAFAFA"}, "Flat person");
+        
+     });
  });
