@@ -6,7 +6,7 @@ function Person(details) {
     if (!(this instanceof Person)) {
     	return new Person(details);
     }
-
+    
     var id;
     this.getId = function () {
         return id;    
@@ -14,7 +14,7 @@ function Person(details) {
     
     this.setId = function (val) {
         if (val == "")
-            throw new Exception("Id cannot be blank");
+            throw "Id cannot be blank";
         
         id = val;    
     }
@@ -27,7 +27,7 @@ function Person(details) {
     
     this.setName = function (val) {
         if (val == "")
-            throw new Exception("Name cannot be blank");
+            throw "Name cannot be blank";
         
         name = val;    
     }
@@ -42,7 +42,7 @@ function Person(details) {
         if (typeof val !== "undefined" && /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(val) ) {
             color = val;
         } else if (typeof val !== "undefined") {
-            throw new Exception("Bad Color");
+            throw "Bad Color";
         }
     }
     // End Color
@@ -59,12 +59,16 @@ function Person(details) {
         } else if (typeof inc === "undefined") {
             score++;
         } else {
-            throw new Exception("Bad Score");
+            throw "Bad Score";
         }
 
     }
     // End Score
     
+    // Make it flat
+    this.flattify = function() {
+        return { id: id, name: name, color: color }    
+    }
     
     // Check to see if we got this passed
     if (details) {
@@ -78,5 +82,4 @@ if (typeof exports !== 'undefined') {
     if (typeof module !== 'undefined' && module.exports) {
       exports = module.exports = Person;
     }
-    exports.testingObj = Person;
 }
