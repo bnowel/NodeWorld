@@ -13,6 +13,9 @@ var people = (function() {
             person.setId(id);
             this[id.toString()] = person;
             return person;
+        },
+        remove: function(id) {
+            return delete this[id];
         }
     }
 })();
@@ -25,6 +28,12 @@ app.post('/person/add', function(req, res){
    
    // res.send expects a string. Give it what it wants
    res.send(JSON.stringify(helper.flattify(p)));
+});
+
+app.post('/person/delete/:id', function(req, res) {
+   var deleted = people.remove(req.params.id);
+   
+   res.send("{success: " + deleted + "}");
 });
 
 // If we don't get a person by this id return an empty object
