@@ -50,5 +50,10 @@ suite('Message', function() {
        assert.equal(msg.getName(), "Brett", "Name is set correctly");
        
        assert.throws( function() { msg.setName("") }, "Name cannot be blank", "Name cannot be blank"); 
+       msg = new Message();
+       assert.equal(msg.getName(), "Anon", "No name is same as Anon");
+       
+       msg = new Message({bad: "bad"});
+       assert.equal(msg.getName(), "Anon", "No name is same as Anon");
     });
 });

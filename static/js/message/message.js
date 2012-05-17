@@ -43,7 +43,7 @@ function Message(options) {
     // End Color
 
     // This is taken from person.  Maybe there is some way to share this stuff    
-    var name;
+    var name = "Anon";
     this.getName = function () {
         return name;    
     }
@@ -60,7 +60,9 @@ function Message(options) {
         this.setTimestamp( options["timestamp"] );
         this.setText( options["text"] );
         this.setColor( options["color"] );
-        this.setName( options["name"] );
+        if (options["name"]) {
+            this.setName( options["name"] );
+        }
     }
 }
 
