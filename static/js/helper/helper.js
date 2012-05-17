@@ -21,7 +21,24 @@ var helper = {
             }
         }
         return indexes;    
-    }
+    },
+    
+    flattify : function (obj){
+        var retobj = {}
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)){
+                if (typeof obj[key] === "function"){
+                    if (key.substring(0,3) == "get"){
+                        var downCaseKey = key.substr(3).charAt(0).toLowerCase() + key.slice(4);
+                        retobj[downCaseKey] = obj[key]();    
+                    }
+                } else {
+                    retobj[key] = obj[key];
+                }
+            }
+        }
+        return retobj;
+    } 
 }
 
 if (typeof exports !== 'undefined') {
