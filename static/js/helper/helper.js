@@ -27,12 +27,13 @@ var helper = {
         var retobj = {}
         for (var key in obj) {
             if (obj.hasOwnProperty(key)){
-                if (typeof key === "function"){
-                    if (key.substring(0,2) == "get"){
-                        retobj[key.substr(3)] = obj.key();    
+                if (typeof obj[key] === "function"){
+                    if (key.substring(0,3) == "get"){
+                        var downCaseKey = key.substr(3).charAt(0).toLowerCase() + key.slice(4);
+                        retobj[downCaseKey] = obj[key]();    
                     }
                 } else {
-                    retobj[key] = obj.key;    
+                    retobj[key] = obj[key];
                 }
             }
         }

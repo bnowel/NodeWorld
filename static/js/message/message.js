@@ -60,7 +60,9 @@ function Message(options) {
         this.setTimestamp( options["timestamp"] );
         this.setText( options["text"] );
         this.setColor( options["color"] );
-        this.setName( options["name"] );
+        if (options["name"]) {
+            this.setName( options["name"] );
+        }
     }
 }
 
