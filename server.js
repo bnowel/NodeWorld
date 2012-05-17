@@ -2,23 +2,10 @@ var express = require('express'),
     app = express.createServer(),
     io = require('socket.io').listen(app),
     Person = require('./static/js/person/person'),
+    people = require('./static/js/people/people'),
     helper = require('./static/js/helper/helper'),
     Message = require('./static/js/message/message');
     
-var people = (function() { 
-    var index = 1; 
-    return { 
-        add : function(person) { 
-            var id = index++; 
-            person.setId(id);
-            this[id.toString()] = person;
-            return person;
-        },
-        remove: function(id) {
-            return delete this[id];
-        }
-    }
-})();
 
 app.listen(process.env.C9_PORT || process.env.PORT || 3000);
 app.use(express.bodyParser());
