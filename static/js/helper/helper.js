@@ -21,7 +21,23 @@ var helper = {
             }
         }
         return indexes;    
-    }
+    },
+    
+    flattify : function (obj){
+        var retobj = {}
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)){
+                if (typeof key === "function"){
+                    if (key.substring(0,2) == "get"){
+                        retobj[key.substr(3)] = obj.key();    
+                    }
+                } else {
+                    retobj[key] = obj.key;    
+                }
+            }
+        }
+        return retobj;
+    } 
 }
 
 if (typeof exports !== 'undefined') {
