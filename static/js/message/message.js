@@ -43,7 +43,7 @@ function Message(options) {
     // End Color
 
     // This is taken from person.  Maybe there is some way to share this stuff    
-    var name;
+    var name = "Anon";
     this.getName = function () {
         return name;    
     }
