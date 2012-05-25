@@ -15,6 +15,11 @@
       "asyncjs" : "0.0.6"
     },
     "scripts": { 
-    "test": "make test" 
+    "test": "make test",
+    "fooObjectFile": "echo \"var NEWOBJECT = {}\n\n\n\n\n\nif (typeof exports !== 'undefined') {\n\tif (typeof module !== 'undefined' && module.exports) {\n\texports = module.exports = NEWOBJECT;\n\t}\n}\" >> static/js/NEWOBJECT/NEWOBJECT.js",
+    "fooC9TestFile": "echo \"require('../../../test/c9test');\nrequire('../../../test/test.NEWOBJECT');\" >> static/js/NEWOBJECT/NEWOBJECT_test.js",
+    "fooTestFile" : "echo \"var assert = require('assert'),\nNEWOBJECT = require('./../static/js/NEWOBJECT/NEWOBJECT');\n\nsuite('NEWOBJECT', function() {\n\ttest('NEWOBJECT Instantiation', function() {\n\t});\n});\" >> test/test.NEWOBJECT.js",
+    "fooEchoAction":"echo \"\n*****************************************\nREFRESH PROJECT TREE\nREPLACE ALL INSTANCES OF \"NEWOBJECT\" \n*****************************************\"",
+    "newObject" : "mkdir static/js/NEWOBJECT ; npm run-script fooObjectFile; npm run-script fooC9TestFile; npm run-script fooTestFile; npm run-script fooEchoAction;"
   }
 }
