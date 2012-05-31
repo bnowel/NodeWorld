@@ -18,7 +18,7 @@ var testFileString = "var assert = require('assert'),\n"+Thing+" = require('./..
 
 //console.log(fileString);
 
-fs.mkdirSync('static/js/'+thing);
+fs.mkdirSync('static/js/'+thing, '0777');
 
 fs.writeFileSync('static/js/'+thing+'/'+thing+'.js', fileString);
 fs.writeFileSync('static/js/'+thing+'/'+thing+'_test.js', c9TestFileString);

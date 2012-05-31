@@ -108,49 +108,7 @@ var world = function () {
         if (pIndex >=0)
             players.remove(pIndex);
     }
-    
-    function getDirObj(d){
-        var dir;
-        switch (d) {
-              case 'w': dir = {x:-playerSpeed, y:0}; break;  
-	          case 'n': dir = {x:0, y:-playerSpeed}; break;
-	          case 'e': dir = {x:playerSpeed, y:0}; break;
-	          case 's': dir = {x:0, y:playerSpeed}; break;
-	          default: return;
-	        }
-        return dir;
-    }
-    
-    var updatePlayerDirById = function(id, dirStr) {
-        var pIndex = getPlayerIndexById(id);
-        var dir;
-        if (pIndex >=0) {
-        	dir = getDirObj(dirStr);
-	        //console.log(dir);
-	        
-            _.extend(players[pIndex], {newDir:dir});
-            console.log("update player: " + JSON.stringify(players[pIndex]));
-        }
-    }
-    
-    var getPlayerPropertyById = function (id, prop){
-        var playerIndex = getPlayerIndexById(id);
         
-        if (playerIndex < 0) {
-            return "";
-        }
-        
-        return players[playerIndex][prop];
-    };
-
-    var getPlayerNameById = function(id) {
-        return getPlayerPropertyById(id, "name");
-    };
-
-    var getPlayerColorById = function(id) {
-        return getPlayerPropertyById(id, "color");
-    }
-    
     function getInitCoordsAndDir(i){
         var x,y,dir,retObj;
         switch (i) {
@@ -211,6 +169,7 @@ var world = function () {
     	}
     }
     
+    /*
     // update the world state
     var crank = function(tick) {
 		// elapsed ticks
@@ -262,14 +221,8 @@ var world = function () {
 			tickSpinner %= cycleSpeedMs; // spin around
 		}
     };
-    
-    function addDummyPlayers(){
-    	addPlayer({id:"leo", pos:{x:10, py:10}, dir:{x:10, y:2}});
-		addPlayer({id:"mike", pos:{x:10, py:10}, dir:{x:10, y:2}});
-		addPlayer({id:"ralph", pos:{x:10, py:10}, dir:{x:10, y:2}});
-		addPlayer({id:"don", pos:{x:10, py:10}, dir:{x:10, y:2}});
-    }
-    
+    */
+    /*
     // debug
     var godSays = function(data) {
     	if (data.message == "startCycle") {
@@ -285,7 +238,7 @@ var world = function () {
     		addDummyPlayers();
     	}
     };
-    
+    */
     // synchronous cycle update
     var update = function() { 
         // tick tock
