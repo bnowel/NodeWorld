@@ -62,7 +62,7 @@ Setting up a local enviroment
 
 Setting up Testing (Mocha) on your local
 ------------------------------
-mocha - simple, flexible, fun javascript test framework for node.js & the browser. (BDD, TDD, QUnit styles via interfaces) — Read more at http://visionmedia.github.com/mocha
+mocha - simple, flexible, fun javascript test framework for node.js & the browser. (BDD, TDD, QUnit styles via interfaces) — Read more at http://mochajs.org/
 
 Install mocha for this project only:
     
